@@ -73,6 +73,22 @@ function CheckIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+function DownloadIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+    </svg>
+  );
+}
+
+function HardDriveIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z" />
+    </svg>
+  );
+}
+
 function DockerIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -105,6 +121,30 @@ function AppleIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.47-2.35 1.05-3.11z"/>
+    </svg>
+  );
+}
+
+function CopyIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9.75a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  );
+}
+
+function WarningIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
     </svg>
   );
 }
@@ -191,16 +231,60 @@ function ImageCard({ image }: { image: RunnerImage }) {
 
 // ─── Terminal Component ───────────────────────────────────────────────────────
 function Terminal({ children, title = "terminal" }: { children: React.ReactNode; title?: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const textContent = typeof children === 'string' ? children : '';
+    if (textContent) {
+      navigator.clipboard.writeText(textContent);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <div className="rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/80 border-b border-slate-800">
-        <div className="w-3 h-3 rounded-full bg-red-500/80" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-        <div className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-2 text-xs text-slate-500">{title}</span>
+      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-900/80 border-b border-slate-800">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-500/80" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+          <div className="w-3 h-3 rounded-full bg-green-500/80" />
+          <span className="ml-2 text-xs text-slate-500">{title}</span>
+        </div>
+        <button
+          onClick={handleCopy}
+          className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1"
+        >
+          {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3.5 h-3.5" />}
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
       </div>
-      <div className="p-5 font-mono text-sm">
+      <div className="p-5 font-mono text-sm overflow-x-auto">
         {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Step Component ───────────────────────────────────────────────────────────
+function Step({ number, title, children, active = false }: { number: number; title: string; children: React.ReactNode; active?: boolean }) {
+  return (
+    <div className={`relative pl-12 pb-8 last:pb-0 ${active ? '' : ''}`}>
+      {/* Vertical line */}
+      <div className="absolute left-[18px] top-10 bottom-0 w-px bg-slate-800" />
+      {/* Number circle */}
+      <div className={`absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border-2 ${
+        active
+          ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
+          : 'bg-slate-800 border-slate-700 text-slate-400'
+      }`}>
+        {number}
+      </div>
+      <div>
+        <h4 className="text-lg font-semibold text-white mb-2">{title}</h4>
+        <div className="text-sm text-slate-400 space-y-3">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -211,6 +295,7 @@ export default function App() {
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<'all' | 'ubuntu' | 'macos' | 'windows'>('all');
+  const [activeTab, setActiveTab] = useState<'azure' | 'docker' | 'local'>('azure');
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -260,10 +345,10 @@ export default function App() {
               <span className="hidden sm:inline text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Sovereign Fork</span>
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#images" className="text-sm text-slate-400 hover:text-white transition-colors">Images</a>
+              <a href="#load-images" className="text-sm text-emerald-400 font-medium">Load Images</a>
+              <a href="#images" className="text-sm text-slate-400 hover:text-white transition-colors">Available</a>
               <a href="#features" className="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
               <a href="#software" className="text-sm text-slate-400 hover:text-white transition-colors">Software</a>
-              <a href="#getting-started" className="text-sm text-slate-400 hover:text-white transition-colors">Get Started</a>
             </div>
             <div className="flex items-center gap-3">
               <a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
@@ -285,10 +370,10 @@ export default function App() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-slate-900/95 backdrop-blur-xl border-b border-slate-800">
             <div className="px-4 py-4 space-y-3">
-              <a href="#images" className="block text-sm text-slate-400 hover:text-white">Images</a>
+              <a href="#load-images" className="block text-sm text-emerald-400 font-medium">Load Images</a>
+              <a href="#images" className="block text-sm text-slate-400 hover:text-white">Available</a>
               <a href="#features" className="block text-sm text-slate-400 hover:text-white">Features</a>
               <a href="#software" className="block text-sm text-slate-400 hover:text-white">Software</a>
-              <a href="#getting-started" className="block text-sm text-slate-400 hover:text-white">Get Started</a>
             </div>
           </div>
         )}
@@ -327,9 +412,10 @@ export default function App() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <a href="#images" className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-slate-900 font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
-              Explore Images
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            <a href="#load-images" className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-slate-900 font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+              <HardDriveIcon className="w-5 h-5" />
+              Load Images to Drive
+              <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </a>
             <a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 transition-colors">
               <GithubIcon className="w-5 h-5" />
@@ -359,6 +445,319 @@ export default function App() {
           <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
           </svg>
+        </div>
+      </section>
+
+      {/* ─── LOAD IMAGES SECTION (PRIMARY) ────────────────────────────── */}
+      <section id="load-images" className="py-24 relative bg-gradient-to-b from-slate-900/50 to-transparent">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+              <HardDriveIcon className="w-3.5 h-3.5" />
+              Step-by-Step Guide
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">How to Load Images to Your Drive</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Choose your method below. These runner images are built with <strong className="text-white">Packer</strong> and stored as Azure managed images, Docker containers, or local VMs.
+            </p>
+          </div>
+
+          {/* Method Tabs */}
+          <div className="flex items-center justify-center gap-2 mb-10 flex-wrap">
+            {[
+              { key: 'azure', label: 'Azure VM (Recommended)', icon: <CloudIcon className="w-4 h-4" /> },
+              { key: 'docker', label: 'Docker Container', icon: <DockerIcon className="w-4 h-4" /> },
+              { key: 'local', label: 'Local / Self-Hosted', icon: <HardDriveIcon className="w-4 h-4" /> },
+            ].map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                  activeTab === tab.key
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-lg shadow-emerald-500/5'
+                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-800'
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* ─── Azure VM Method ──────────────────────────────────────── */}
+          {activeTab === 'azure' && (
+            <div className="space-y-0">
+              <Step number={1} title="Clone the Repository" active>
+                <p>Start by cloning the fork to your local machine:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={2} title="Install Prerequisites">
+                <p>You need these tools on your build agent machine:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                  {[
+                    { name: 'Packer', version: '≥ 1.8.2', cmd: 'choco install packer' },
+                    { name: 'Git', version: 'Latest', cmd: 'choco install git' },
+                    { name: 'PowerShell', version: '≥ 5.0', cmd: 'Built-in (Windows)' },
+                    { name: 'Azure CLI', version: 'Latest', cmd: 'az --version' },
+                  ].map((tool, i) => (
+                    <div key={i} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium text-white">{tool.name}</span>
+                        <span className="text-xs text-slate-500">{tool.version}</span>
+                      </div>
+                      <code className="text-xs text-emerald-400">{tool.cmd}</code>
+                    </div>
+                  ))}
+                </div>
+              </Step>
+
+              <Step number={3} title="Authenticate with Azure">
+                <p>Log in to your Azure subscription:</p>
+                <Terminal title="powershell">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az login</span></div>
+                    <div className="text-slate-500"># Or use a Service Principal for automation:</div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az ad sp create-for-rbac --name "imagegen-app"</span></div>
+                  </div>
+                </Terminal>
+                <div className="mt-3 p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 flex items-start gap-2">
+                  <WarningIcon className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                  <p className="text-xs text-amber-300/80">You need an Azure subscription, a resource group, and Contributor permissions to build images.</p>
+                </div>
+              </Step>
+
+              <Step number={4} title="Generate the Image">
+                <p>Use the helper script to build a managed image in Azure:</p>
+                <Terminal title="powershell">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\GenerateResourcesAndImage.ps1</span></div>
+                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">GenerateResourcesAndImage `</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"your-sub-id"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"East US"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-ImageType </span><span className="text-cyan-300">"Ubuntu2404"</span></div>
+                  </div>
+                </Terminal>
+                <p className="text-xs text-slate-500 mt-2">Valid ImageType options: <code className="text-slate-400">Windows2022</code>, <code className="text-slate-400">Windows2025</code>, <code className="text-slate-400">Windows2025_vs2026</code>, <code className="text-slate-400">Ubuntu2204</code>, <code className="text-slate-400">Ubuntu2404</code>, <code className="text-slate-400">Ubuntu2604</code></p>
+              </Step>
+
+              <Step number={5} title="Deploy VM from Generated Image">
+                <p>Once the image is built, create a VM from it:</p>
+                <Terminal title="powershell">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</span></div>
+                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">CreateAzureVMFromPackerTemplate `</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"your-sub-id"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-ManagedImageName </span><span className="text-cyan-300">"Runner-Image-Ubuntu2404"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-VirtualMachineName </span><span className="text-cyan-300">"my-runner"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-AdminUsername </span><span className="text-cyan-300">"runner"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-AdminPassword </span><span className="text-cyan-300">"SecurePass123!"</span> <span className="text-slate-300">`</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"eastus"</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={6} title="Run Post-Generation Scripts">
+                <p>After deploying, run the post-gen scripts to finalize setup:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                  <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                    <div className="text-xs text-orange-400 font-medium mb-1">Ubuntu</div>
+                    <code className="text-xs text-slate-300 break-all">sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {'{}'} \;"</code>
+                  </div>
+                  <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                    <div className="text-xs text-blue-400 font-medium mb-1">Windows</div>
+                    <code className="text-xs text-slate-300 break-all">Get-ChildItem C:\post-generation -Filter *.ps1 | ForEach-Object {'{'} & $_.FullName {'}'}</code>
+                  </div>
+                </div>
+              </Step>
+            </div>
+          )}
+
+          {/* ─── Docker Method ────────────────────────────────────────── */}
+          {activeTab === 'docker' && (
+            <div className="space-y-0">
+              <Step number={1} title="Clone the Repository" active>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={2} title="Build Docker Image Locally">
+                <p>The repo includes a Docker publish workflow. You can build images locally:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-slate-500"># Build an Ubuntu 24.04 runner image</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">docker build -t runner-image:ubuntu-24.04 \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-f images/ubuntu/templates/ubuntu-24.04.Dockerfile .</span></div>
+                    <div className="mt-2"><span className="text-slate-500"># Or use the automated workflow</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cat .github/workflows/docker-publish.yml</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={3} title="Push to Container Registry">
+                <p>Push your built image to Docker Hub, GHCR, or any registry:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">docker tag runner-image:ubuntu-24.04 \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">ghcr.io/parkkris111-sovereign/runner-image:ubuntu-24.04</span></div>
+                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">docker push ghcr.io/parkkris111-sovereign/runner-image:ubuntu-24.04</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={4} title="Use in GitHub Actions">
+                <p>Reference the container image in your workflow:</p>
+                <Terminal title=".github/workflows/ci.yml">
+                  <div className="space-y-1">
+                    <div><span className="text-violet-400">jobs</span><span className="text-slate-400">:</span></div>
+                    <div><span className="text-slate-400">  </span><span className="text-violet-400">build</span><span className="text-slate-400">:</span></div>
+                    <div><span className="text-slate-400">    </span><span className="text-violet-400">runs-on</span><span className="text-slate-400">: </span><span className="text-emerald-300">ubuntu-latest</span></div>
+                    <div><span className="text-slate-400">    </span><span className="text-violet-400">container</span><span className="text-slate-400">:</span></div>
+                    <div><span className="text-slate-400">      </span><span className="text-violet-400">image</span><span className="text-slate-400">: </span><span className="text-emerald-300">ghcr.io/parkkris111-sovereign/runner-image:ubuntu-24.04</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <div className="mt-6 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
+                <div className="flex items-start gap-3">
+                  <CheckIcon className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
+                  <div>
+                    <h4 className="text-sm font-semibold text-emerald-300">Docker Publish Workflow</h4>
+                    <p className="text-xs text-slate-400 mt-1">
+                      The fork includes a custom <code className="text-emerald-400">docker-publish.yml</code> workflow that automates building and pushing container images. 
+                      Check <code className="text-slate-300">.github/workflows/docker-publish.yml</code> for configuration.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ─── Local / Self-Hosted Method ───────────────────────────── */}
+          {activeTab === 'local' && (
+            <div className="space-y-0">
+              <Step number={1} title="Clone the Repository" active>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={2} title="Install Packer & Azure CLI">
+                <p>Packer generates the disk images. Azure CLI authenticates with Azure to provision build VMs:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-slate-500"># macOS</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">brew install packer azure-cli</span></div>
+                    <div className="mt-2"><span className="text-slate-500"># Linux (Ubuntu/Debian)</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">wget -O- packer.io/install.sh | bash</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash</span></div>
+                    <div className="mt-2"><span className="text-slate-500"># Windows</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">choco install packer azure-cli</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={3} title="Build with Packer Directly">
+                <p>For automated/CI builds, invoke Packer directly:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">packer plugins install github.com/hashicorp/azure 2.2.1</span></div>
+                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">packer build \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-only "ubuntu-24_04.*" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "subscription_id=$ARM_SUBSCRIPTION_ID" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "client_id=$ARM_CLIENT_ID" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "client_secret=$ARM_CLIENT_SECRET" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "location=East US" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "image_os=ubuntu24" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "managed_image_name=MyRunner" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">-var "managed_image_resource_group_name=my-rg" \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">images/ubuntu/templates/</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+
+              <Step number={4} title="Export to Local Disk (VHD/VHDX)">
+                <p>To save the image to your local drive, export the Azure managed image as a VHD:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-slate-500"># Export managed image to storage account</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az image export \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--resource-group my-rg \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--name MyRunner \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--destination https://mystorage.blob.core.windows.net/vhds/runner.vhd</span></div>
+                    <div className="mt-2"><span className="text-slate-500"># Download to local drive</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az storage blob download \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--account-name mystorage \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--container-name vhds \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--name runner.vhd \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">--file ~/runner-images/runner.vhd</span></div>
+                  </div>
+                </Terminal>
+                <div className="mt-3 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20 flex items-start gap-2">
+                  <WarningIcon className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
+                  <p className="text-xs text-blue-300/80">VHD files are typically 30-100+ GB. Ensure you have sufficient disk space and bandwidth.</p>
+                </div>
+              </Step>
+
+              <Step number={5} title="Register as Self-Hosted Runner">
+                <p>Use the image as a self-hosted GitHub Actions runner:</p>
+                <Terminal title="terminal">
+                  <div className="space-y-1">
+                    <div><span className="text-slate-500"># Download runner agent</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">mkdir actions-runner && cd actions-runner</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">curl -o actions-runner-linux-x64.tar.gz -L \</span></div>
+                    <div className="pl-4"><span className="text-slate-300">https://github.com/actions/runner/releases/latest/download/...</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">tar xzf actions-runner-linux-x64.tar.gz</span></div>
+                    <div className="mt-2"><span className="text-slate-500"># Configure with your repo token</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">./config.sh --url https://github.com/YOUR/REPO --token YOUR_TOKEN</span></div>
+                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">./run.sh</span></div>
+                  </div>
+                </Terminal>
+              </Step>
+            </div>
+          )}
+
+          {/* Quick reference card */}
+          <div className="mt-16 p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <DownloadIcon className="w-5 h-5 text-emerald-400" />
+              Quick Reference — All Commands
+            </h3>
+            <Terminal title="all-in-one.sh">
+              <div className="space-y-1">
+                <div><span className="text-slate-500"># 1. Clone</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
+                <div className="mt-2"><span className="text-slate-500"># 2. Install Packer</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">choco install packer  <span className="text-slate-500"># Windows</span></span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">brew install packer   <span className="text-slate-500"># macOS</span></span></div>
+                <div className="mt-2"><span className="text-slate-500"># 3. Login to Azure</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az login</span></div>
+                <div className="mt-2"><span className="text-slate-500"># 4. Build image (PowerShell)</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\GenerateResourcesAndImage.ps1</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">GenerateResourcesAndImage -SubscriptionId "..." -ResourceGroupName "..." -AzureLocation "East US" -ImageType "Ubuntu2404"</span></div>
+                <div className="mt-2"><span className="text-slate-500"># 5. Deploy VM from image</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</span></div>
+                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">CreateAzureVMFromPackerTemplate -SubscriptionId "..." -ResourceGroupName "..." -ManagedImageName "Runner-Image-Ubuntu2404" -VirtualMachineName "my-runner" -AdminUsername "runner" -AdminPassword "..." -AzureLocation "eastus"</span></div>
+              </div>
+            </Terminal>
+          </div>
         </div>
       </section>
 
@@ -495,7 +894,6 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Installation strategy table */}
             <div className="rounded-2xl bg-slate-900/50 border border-slate-800 overflow-hidden">
               <div className="px-6 py-4 border-b border-slate-800 bg-slate-800/30">
                 <h3 className="font-semibold text-white flex items-center gap-2">
@@ -522,7 +920,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Package managers */}
             <div className="rounded-2xl bg-slate-900/50 border border-slate-800 overflow-hidden">
               <div className="px-6 py-4 border-b border-slate-800 bg-slate-800/30">
                 <h3 className="font-semibold text-white flex items-center gap-2">
@@ -543,7 +940,6 @@ export default function App() {
                     ))}
                   </div>
                 </div>
-
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <WindowsIcon className="w-4 h-4 text-blue-400" />
@@ -556,7 +952,6 @@ export default function App() {
                     ))}
                   </div>
                 </div>
-
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <AppleIcon className="w-4 h-4 text-slate-300" />
@@ -569,234 +964,6 @@ export default function App() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Getting Started Section ──────────────────────────────────── */}
-      <section id="getting-started" className="py-24 relative bg-slate-900/30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Get Started</span>
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Use runner images in your GitHub Actions workflows with a simple YAML configuration.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Basic workflow */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <CheckIcon className="w-5 h-5 text-emerald-400" />
-                Basic Workflow
-              </h3>
-              <Terminal title=".github/workflows/ci.yml">
-                <div className="space-y-1">
-                  <div><span className="text-slate-500"># Basic CI workflow</span></div>
-                  <div><span className="text-violet-400">name</span><span className="text-slate-400">: </span><span className="text-emerald-300">CI</span></div>
-                  <div><span className="text-violet-400">on</span><span className="text-slate-400">: [</span><span className="text-emerald-300">push</span><span className="text-slate-400">, </span><span className="text-emerald-300">pull_request</span><span className="text-slate-400">]</span></div>
-                  <div className="mt-2"><span className="text-violet-400">jobs</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">  </span><span className="text-violet-400">build</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">    </span><span className="text-violet-400">runs-on</span><span className="text-slate-400">: </span><span className="text-emerald-300">ubuntu-latest</span></div>
-                  <div><span className="text-slate-400">    </span><span className="text-violet-400">steps</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">      - </span><span className="text-violet-400">uses</span><span className="text-slate-400">: </span><span className="text-emerald-300">actions/checkout@v4</span></div>
-                  <div><span className="text-slate-400">      - </span><span className="text-violet-400">run</span><span className="text-slate-400">: </span><span className="text-emerald-300">npm test</span></div>
-                </div>
-              </Terminal>
-            </div>
-
-            {/* Multi-OS workflow */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <CheckIcon className="w-5 h-5 text-emerald-400" />
-                Multi-OS Matrix
-              </h3>
-              <Terminal title="matrix-strategy.yml">
-                <div className="space-y-1">
-                  <div><span className="text-slate-500"># Test across platforms</span></div>
-                  <div><span className="text-violet-400">jobs</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">  </span><span className="text-violet-400">test</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">    </span><span className="text-violet-400">strategy</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">      </span><span className="text-violet-400">matrix</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">        </span><span className="text-violet-400">os</span><span className="text-slate-400">:</span></div>
-                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">ubuntu-24.04</span></div>
-                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">macos-latest</span></div>
-                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">windows-latest</span></div>
-                  <div><span className="text-slate-400">    </span><span className="text-violet-400">runs-on</span><span className="text-slate-400">: </span><span className="text-cyan-300">${'{'}</span><span className="text-emerald-300">matrix.os</span><span className="text-cyan-300">{'}'}</span></div>
-                </div>
-              </Terminal>
-            </div>
-          </div>
-
-          {/* Clone command */}
-          <div className="mt-12">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <CheckIcon className="w-5 h-5 text-emerald-400" />
-              Clone This Repository
-            </h3>
-            <Terminal title="terminal">
-              <div className="space-y-2">
-                <div>
-                  <span className="text-slate-500"># Clone the runner-images repository</span>
-                </div>
-                <div>
-                  <span className="text-emerald-400">$</span>
-                  <span className="text-slate-300"> gh repo clone parkkris111-sovereign/runner-images</span>
-                </div>
-                <div className="mt-3">
-                  <span className="text-slate-500"># Or build a custom VM image</span>
-                </div>
-                <div>
-                  <span className="text-emerald-400">$</span>
-                  <span className="text-slate-300"> cd runner-images</span>
-                </div>
-                <div>
-                  <span className="text-emerald-400">$</span>
-                  <span className="text-slate-300"> cat docs/create-image-and-azure-resources.md</span>
-                </div>
-              </div>
-            </Terminal>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Image Lifecycle Section ──────────────────────────────────── */}
-      <section className="py-24 relative">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Image Lifecycle</span>
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              From Beta to GA to Deprecation — a transparent lifecycle for every runner image.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-amber-500/20">
-              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
-                BETA
-              </div>
-              <h3 className="text-lg font-semibold text-white mt-2 mb-3">Beta Phase</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Collect feedback before GA release</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Weekly image updates</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Not covered by SLA</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-emerald-500/20">
-              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
-                GA
-              </div>
-              <h3 className="text-lg font-semibold text-white mt-2 mb-3">General Availability</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Production-ready and SLA-covered</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Weekly software updates</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Max 2 GA + 1 Beta at a time</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-red-500/20">
-              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold">
-                DEPRECATED
-              </div>
-              <h3 className="text-lg font-semibold text-white mt-2 mb-3">Deprecation</h3>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                  <span>Announcement with deprecation date</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                  <span>Scheduled brownout periods</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                  <span>Tools removed 6 months after EOL</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Repository Structure ─────────────────────────────────────── */}
-      <section className="py-24 relative bg-slate-900/30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Repository Structure</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Terminal title="runner-images/">
-              <div className="space-y-1 text-slate-300">
-                <div className="text-emerald-400">├── images/ <span className="text-slate-500"># VM image definitions</span></div>
-                <div className="pl-6 text-slate-400">├── ubuntu/ <span className="text-slate-500"># Ubuntu scripts & configs</span></div>
-                <div className="pl-6 text-slate-400">├── macos/ <span className="text-slate-500"># macOS image builds</span></div>
-                <div className="pl-6 text-slate-400">├── windows/ <span className="text-slate-500"># Windows Server images</span></div>
-                <div className="pl-6 text-slate-400">└── ubuntu-slim/ <span className="text-slate-500"># Minimal Ubuntu image</span></div>
-                <div className="text-cyan-400">├── images.CI/ <span className="text-slate-500"># CI build pipelines</span></div>
-                <div className="text-violet-400">├── helpers/ <span className="text-slate-500"># Build helper scripts</span></div>
-                <div className="text-amber-400">├── schemas/ <span className="text-slate-500"># JSON schemas</span></div>
-                <div className="text-blue-400">├── docs/ <span className="text-slate-500"># Documentation & guides</span></div>
-                <div className="text-slate-400">└── .github/ <span className="text-slate-500"># Workflows & Docker publish</span></div>
-              </div>
-            </Terminal>
-
-            <div className="space-y-4">
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-emerald-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                    <ServerIcon className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <h4 className="font-semibold text-white">Image Definitions</h4>
-                </div>
-                <p className="text-sm text-slate-400">PowerShell & Shell scripts that define what gets installed on each VM image. Organized by OS family.</p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-cyan-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
-                    <PlayIcon className="w-4 h-4 text-cyan-400" />
-                  </div>
-                  <h4 className="font-semibold text-white">CI Pipelines</h4>
-                </div>
-                <p className="text-sm text-slate-400">Azure ARM templates and CI configurations for building and validating images at scale.</p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-violet-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                    <DockerIcon className="w-4 h-4 text-violet-400" />
-                  </div>
-                  <h4 className="font-semibold text-white">Docker Publish</h4>
-                </div>
-                <p className="text-sm text-slate-400">Custom workflow for publishing containerized images with automated tagging and registry push.</p>
               </div>
             </div>
           </div>
@@ -825,7 +992,7 @@ export default function App() {
                 <li><a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">GitHub Repository</a></li>
                 <li><a href="https://github.com/parkkris111-sovereign/runner-images/releases" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Releases (2,389 tags)</a></li>
                 <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">GitHub Actions Docs</a></li>
-                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Contributing Guide</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/docs/create-image-and-azure-resources.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Build Custom Image Guide</a></li>
               </ul>
             </div>
 
@@ -835,7 +1002,7 @@ export default function App() {
                 <li><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Ubuntu 24.04 Readme</a></li>
                 <li><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">macOS 26 Arm64 Readme</a></li>
                 <li><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-VS2026-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Windows 2025 Readme</a></li>
-                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/docs/create-image-and-azure-resources.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Build Custom Image</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Contributing Guide</a></li>
               </ul>
             </div>
           </div>
