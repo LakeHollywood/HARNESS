@@ -488,97 +488,300 @@ export default function App() {
 
           {/* ─── Azure VM Method ──────────────────────────────────────── */}
           {activeTab === 'azure' && (
-            <div className="space-y-0">
-              <Step number={1} title="Clone the Repository" active>
-                <p>Start by cloning the fork to your local machine:</p>
-                <Terminal title="terminal">
-                  <div className="space-y-1">
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
-                  </div>
-                </Terminal>
-              </Step>
-
-              <Step number={2} title="Install Prerequisites">
-                <p>You need these tools on your build agent machine:</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                  {[
-                    { name: 'Packer', version: '≥ 1.8.2', cmd: 'choco install packer' },
-                    { name: 'Git', version: 'Latest', cmd: 'choco install git' },
-                    { name: 'PowerShell', version: '≥ 5.0', cmd: 'Built-in (Windows)' },
-                    { name: 'Azure CLI', version: 'Latest', cmd: 'az --version' },
-                  ].map((tool, i) => (
-                    <div key={i} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm font-medium text-white">{tool.name}</span>
-                        <span className="text-xs text-slate-500">{tool.version}</span>
+            <div>
+              {/* ─── Progress Tracker ─────────────────────────────────── */}
+              <div className="mb-10 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-semibold text-white">Build Pipeline Progress</h3>
+                  <span className="text-xs text-slate-500">Estimated total: ~2-3 hours</span>
+                </div>
+                <div className="relative">
+                  {/* Progress bar background */}
+                  <div className="absolute top-4 left-6 right-6 h-0.5 bg-slate-800 rounded-full" />
+                  {/* Step indicators */}
+                  <div className="relative flex justify-between">
+                    {[
+                      { label: 'Clone', time: '1 min' },
+                      { label: 'Install', time: '5 min' },
+                      { label: 'Auth', time: '2 min' },
+                      { label: 'Build', time: '60-90 min' },
+                      { label: 'Deploy', time: '10 min' },
+                      { label: 'Finalize', time: '5 min' },
+                    ].map((step, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1.5 z-10">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
+                          i < 6
+                            ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
+                            : 'bg-slate-800 border-slate-700 text-slate-500'
+                        }`}>
+                          {i + 1}
+                        </div>
+                        <span className="text-[10px] text-slate-400 font-medium">{step.label}</span>
+                        <span className="text-[9px] text-slate-600">{step.time}</span>
                       </div>
-                      <code className="text-xs text-emerald-400">{tool.cmd}</code>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* ─── Steps ────────────────────────────────────────────── */}
+              <div className="space-y-0">
+                {/* ─── STEP 1: Clone ──────────────────────────────────── */}
+                <Step number={1} title="Clone the Repository" active>
+                  <p>Start by cloning the fork to your local machine. You'll need <code className="text-emerald-400 bg-emerald-500/10 px-1 rounded text-xs">gh</code> (GitHub CLI) or plain <code className="text-emerald-400 bg-emerald-500/10 px-1 rounded text-xs">git</code>.</p>
+                  <Terminal title="terminal">
+                    <div className="space-y-1">
+                      <div><span className="text-slate-500"># Using GitHub CLI (recommended)</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
+                      <div className="mt-2"><span className="text-slate-500"># Or using plain git</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">git clone https://github.com/parkkris111-sovereign/runner-images.git</span></div>
                     </div>
-                  ))}
-                </div>
-              </Step>
+                  </Terminal>
+                  <div className="mt-3 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                    <div className="flex items-start gap-2">
+                      <CheckIcon className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-xs font-medium text-emerald-300">Expected output:</p>
+                        <p className="text-xs text-slate-400 mt-0.5 font-mono">✓ Cloned parkkris111-sovereign/runner-images</p>
+                      </div>
+                    </div>
+                  </div>
+                </Step>
 
-              <Step number={3} title="Authenticate with Azure">
-                <p>Log in to your Azure subscription:</p>
-                <Terminal title="powershell">
-                  <div className="space-y-1">
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az login</span></div>
-                    <div className="text-slate-500"># Or use a Service Principal for automation:</div>
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az ad sp create-for-rbac --name "imagegen-app"</span></div>
+                {/* ─── STEP 2: Install Prerequisites ──────────────────── */}
+                <Step number={2} title="Install Packer, Git, PowerShell 5+, and Azure CLI">
+                  <p>You need these four tools on your build agent machine. The build agent can be any physical or virtual machine running Windows or Linux.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                    {[
+                      { name: 'Packer', version: '≥ 1.8.2', cmd: 'choco install packer', desc: 'Image builder by HashiCorp', icon: '🔨' },
+                      { name: 'Git', version: 'Latest', cmd: 'choco install git -params \'"/GitAndUnixToolsOnPath"\'', desc: 'Version control', icon: '📦' },
+                      { name: 'PowerShell', version: '≥ 5.0', cmd: 'pwsh --version', desc: 'Built-in on Windows; install on Linux', icon: '⚡' },
+                      { name: 'Azure CLI', version: 'Latest', cmd: 'az --version', desc: 'Azure resource management', icon: '☁️' },
+                    ].map((tool, i) => (
+                      <div key={i} className="p-4 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-colors">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-lg">{tool.icon}</span>
+                          <span className="text-sm font-semibold text-white">{tool.name}</span>
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 ml-auto">{tool.version}</span>
+                        </div>
+                        <p className="text-xs text-slate-500 mb-2">{tool.desc}</p>
+                        <code className="text-xs text-emerald-400 bg-slate-900/50 px-2 py-1 rounded block">{tool.cmd}</code>
+                      </div>
+                    ))}
                   </div>
-                </Terminal>
-                <div className="mt-3 p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 flex items-start gap-2">
-                  <WarningIcon className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <p className="text-xs text-amber-300/80">You need an Azure subscription, a resource group, and Contributor permissions to build images.</p>
-                </div>
-              </Step>
+                  <div className="mt-3 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
+                    <p className="text-xs text-blue-300/80"><strong className="text-blue-300">💡 Tip:</strong> On Linux, install PowerShell from <code className="text-blue-300">Microsoft's Linux Software Repository</code>. On macOS, use <code className="text-blue-300">brew install --cask powershell</code>.</p>
+                  </div>
+                </Step>
 
-              <Step number={4} title="Generate the Image">
-                <p>Use the helper script to build a managed image in Azure:</p>
-                <Terminal title="powershell">
-                  <div className="space-y-1">
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\GenerateResourcesAndImage.ps1</span></div>
-                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">GenerateResourcesAndImage `</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"your-sub-id"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"East US"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-ImageType </span><span className="text-cyan-300">"Ubuntu2404"</span></div>
+                {/* ─── STEP 3: Authenticate ───────────────────────────── */}
+                <Step number={3} title="Authenticate with Azure">
+                  <p>Log in to your Azure subscription. The <code className="text-emerald-400 bg-emerald-500/10 px-1 rounded text-xs">az login</code> command opens a browser for interactive auth.</p>
+                  <Terminal title="powershell">
+                    <div className="space-y-1">
+                      <div><span className="text-slate-500"># Interactive login (opens browser)</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az login</span></div>
+                      <div className="mt-2"><span className="text-slate-500"># Verify you're connected</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az account show --output table</span></div>
+                      <div className="text-slate-500"># Expected output:</div>
+                      <div className="text-slate-400">EnvironmentName    State    IsDefault</div>
+                      <div className="text-slate-400">-----------------  -------   ---------</div>
+                      <div className="text-emerald-300">AzureCloud         Enabled  True</div>
+                      <div className="mt-3"><span className="text-slate-500"># For automation / CI — create a Service Principal:</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az ad sp create-for-rbac --name "imagegen-app" --role Contributor</span></div>
+                    </div>
+                  </Terminal>
+                  <div className="mt-3 p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 flex items-start gap-2">
+                    <WarningIcon className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs text-amber-300/80"><strong className="text-amber-300">Requirements:</strong> You need an Azure subscription, an existing resource group, and <strong>Contributor</strong> permissions. The build process creates temporary VMs, NICs, and resource groups.</p>
+                    </div>
                   </div>
-                </Terminal>
-                <p className="text-xs text-slate-500 mt-2">Valid ImageType options: <code className="text-slate-400">Windows2022</code>, <code className="text-slate-400">Windows2025</code>, <code className="text-slate-400">Windows2025_vs2026</code>, <code className="text-slate-400">Ubuntu2204</code>, <code className="text-slate-400">Ubuntu2404</code>, <code className="text-slate-400">Ubuntu2604</code></p>
-              </Step>
+                </Step>
 
-              <Step number={5} title="Deploy VM from Generated Image">
-                <p>Once the image is built, create a VM from it:</p>
-                <Terminal title="powershell">
-                  <div className="space-y-1">
-                    <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</span></div>
-                    <div className="mt-2"><span className="text-emerald-400">$</span> <span className="text-slate-300">CreateAzureVMFromPackerTemplate `</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"your-sub-id"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-ManagedImageName </span><span className="text-cyan-300">"Runner-Image-Ubuntu2404"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-VirtualMachineName </span><span className="text-cyan-300">"my-runner"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-AdminUsername </span><span className="text-cyan-300">"runner"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-AdminPassword </span><span className="text-cyan-300">"SecurePass123!"</span> <span className="text-slate-300">`</span></div>
-                    <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"eastus"</span></div>
-                  </div>
-                </Terminal>
-              </Step>
+                {/* ─── STEP 4: Generate the Image ─────────────────────── */}
+                <Step number={4} title="Run GenerateResourcesAndImage to Build a Managed Image">
+                  <p>This is the main build step. The helper script orchestrates Packer to create a temporary Azure VM, install all software, then capture it as a managed image.</p>
+                  <Terminal title="powershell">
+                    <div className="space-y-1">
+                      <div><span className="text-slate-500"># Import the helper module</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\GenerateResourcesAndImage.ps1</span></div>
+                      <div className="mt-2"><span className="text-slate-500"># Run the image generation</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">GenerateResourcesAndImage `</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"East US"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-ImageType </span><span className="text-cyan-300">"Ubuntu2404"</span></div>
+                    </div>
+                  </Terminal>
 
-              <Step number={6} title="Run Post-Generation Scripts">
-                <p>After deploying, run the post-gen scripts to finalize setup:</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                  <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                    <div className="text-xs text-orange-400 font-medium mb-1">Ubuntu</div>
-                    <code className="text-xs text-slate-300 break-all">sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {'{}'} \;"</code>
+                  {/* What happens behind the scenes */}
+                  <div className="mt-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50">
+                    <h4 className="text-xs font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                      <span className="w-5 h-5 rounded bg-violet-500/20 flex items-center justify-center text-violet-400 text-[10px]">⚙</span>
+                      What Happens Behind the Scenes
+                    </h4>
+                    <div className="space-y-2">
+                      {[
+                        'Packer connects to Azure via CLI and creates a temporary resource group',
+                        'A clean base VM is provisioned from the official OS image',
+                        'Packer connects via SSH (Linux) or WinRM (Windows) to the temp VM',
+                        'Installation scripts run sequentially — installing all toolchains',
+                        'If any step fails, the build aborts and temp VM is terminated',
+                        'On success, Packer captures the VM disk as a managed image',
+                        'Temporary resources are cleaned up automatically',
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <span className="text-[10px] text-emerald-400 mt-1 font-mono">{String(i + 1).padStart(2, '0')}</span>
+                          <span className="text-xs text-slate-400">{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                    <div className="text-xs text-blue-400 font-medium mb-1">Windows</div>
-                    <code className="text-xs text-slate-300 break-all">Get-ChildItem C:\post-generation -Filter *.ps1 | ForEach-Object {'{'} & $_.FullName {'}'}</code>
+
+                  {/* Image type options */}
+                  <div className="mt-4">
+                    <p className="text-xs text-slate-500 mb-2 font-medium">Valid <code className="text-slate-400">-ImageType</code> options:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { name: 'Ubuntu2204', arch: 'x64' },
+                        { name: 'Ubuntu2404', arch: 'x64' },
+                        { name: 'Ubuntu2604', arch: 'x64' },
+                        { name: 'Windows2022', arch: 'x64' },
+                        { name: 'Windows2025', arch: 'x64' },
+                        { name: 'Windows2025_vs2026', arch: 'x64' },
+                      ].map((img, i) => (
+                        <span key={i} className="text-xs px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-300">
+                          {img.name} <span className="text-slate-500">({img.arch})</span>
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Step>
+
+                  {/* Troubleshooting */}
+                  <div className="mt-4 p-3 rounded-lg bg-red-500/5 border border-red-500/20">
+                    <p className="text-xs font-medium text-red-300 mb-1">🔧 Troubleshooting</p>
+                    <ul className="text-xs text-slate-400 space-y-1">
+                      <li>• <strong className="text-slate-300">Build timeout?</strong> Ubuntu images take 60-90 min. Windows can take 2+ hours.</li>
+                      <li>• <strong className="text-slate-300">Permission error?</strong> Ensure your SP has Contributor role on the subscription.</li>
+                      <li>• <strong className="text-slate-300">Network blocked?</strong> Ensure WinRM (5986) and SSH (22) are allowed outbound.</li>
+                      <li>• <strong className="text-slate-300">Use <code className="text-slate-300">-RestrictToAgentIpAddress $true</code></strong> to limit temp VM access to your IP only.</li>
+                    </ul>
+                  </div>
+                </Step>
+
+                {/* ─── STEP 5: Deploy VM ──────────────────────────────── */}
+                <Step number={5} title="Deploy a VM from the Image using CreateAzureVMFromPackerTemplate">
+                  <p>Once the managed image is created, deploy a VM from it. This script creates the VM, networking, and makes it accessible.</p>
+                  <Terminal title="powershell">
+                    <div className="space-y-1">
+                      <div><span className="text-slate-500"># Import the deployment helper</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</span></div>
+                      <div className="mt-2"><span className="text-slate-500"># Create the VM</span></div>
+                      <div><span className="text-emerald-400">$</span> <span className="text-slate-300">CreateAzureVMFromPackerTemplate `</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-SubscriptionId </span><span className="text-cyan-300">"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-ResourceGroupName </span><span className="text-cyan-300">"imagegen-rg"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-ManagedImageName </span><span className="text-cyan-300">"Runner-Image-Ubuntu2404"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-VirtualMachineName </span><span className="text-cyan-300">"my-runner"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-AdminUsername </span><span className="text-cyan-300">"runner"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-AdminPassword </span><span className="text-cyan-300">"SecurePass123!"</span> <span className="text-slate-300">`</span></div>
+                      <div className="pl-4"><span className="text-slate-300">-AzureLocation </span><span className="text-cyan-300">"eastus"</span></div>
+                    </div>
+                  </Terminal>
+                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                      <p className="text-xs font-medium text-emerald-300 mb-1">✅ What gets created:</p>
+                      <ul className="text-xs text-slate-400 space-y-0.5">
+                        <li>• Azure Virtual Machine</li>
+                        <li>• Network Interface Card (NIC)</li>
+                        <li>• Public IP Address</li>
+                        <li>• Network Security Group</li>
+                      </ul>
+                    </div>
+                    <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
+                      <p className="text-xs font-medium text-blue-300 mb-1">🔑 Parameters explained:</p>
+                      <ul className="text-xs text-slate-400 space-y-0.5">
+                        <li>• <code className="text-blue-300">ManagedImageName</code> — from Step 4 output</li>
+                        <li>• <code className="text-blue-300">AdminUsername</code> — must have sudo on Linux</li>
+                        <li>• <code className="text-blue-300">AdminPassword</code> — meets Azure complexity rules</li>
+                      </ul>
+                    </div>
+                  </div>
+                </Step>
+
+                {/* ─── STEP 6: Post-Gen Scripts ───────────────────────── */}
+                <Step number={6} title="Run Post-Generation Scripts to Finalize Setup">
+                  <p>The user created during image generation doesn't exist in the final image. Post-gen scripts fix home directory paths, permissions, and initial configurations.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                    <div className="p-4 rounded-lg bg-slate-800/50 border border-orange-500/20">
+                      <div className="flex items-center gap-2 mb-3">
+                        <UbuntuIcon className="w-4 h-4 text-orange-400" />
+                        <span className="text-sm font-semibold text-white">Ubuntu</span>
+                      </div>
+                      <Terminal title="bash">
+                        <div className="space-y-1">
+                          <div><span className="text-slate-500"># Run all post-gen scripts</span></div>
+                          <div><span className="text-emerald-400">$</span> <span className="text-slate-300">sudo su -c \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">"find /opt/post-generation \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">-mindepth 1 -maxdepth 1 \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">-type f -name '*.sh' \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">-exec bash {'{}'} \;"</span></div>
+                        </div>
+                      </Terminal>
+                      <div className="mt-3 space-y-1">
+                        <p className="text-[10px] text-slate-500 font-medium">Scripts executed:</p>
+                        {['cleanup-logs.sh', 'environment-variables.sh', 'homebrew-permissions.sh', 'rust-permissions.sh'].map(s => (
+                          <div key={s} className="flex items-center gap-1.5">
+                            <CheckIcon className="w-3 h-3 text-emerald-400" />
+                            <code className="text-[10px] text-slate-400">{s}</code>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-lg bg-slate-800/50 border border-blue-500/20">
+                      <div className="flex items-center gap-2 mb-3">
+                        <WindowsIcon className="w-4 h-4 text-blue-400" />
+                        <span className="text-sm font-semibold text-white">Windows</span>
+                      </div>
+                      <Terminal title="powershell">
+                        <div className="space-y-1">
+                          <div><span className="text-slate-500"># Run all post-gen scripts</span></div>
+                          <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Get-ChildItem \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">C:\post-generation \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">-Filter *.ps1 | \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">ForEach-Object {'{'} \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">  & $_.FullName \</span></div>
+                          <div className="pl-2"><span className="text-slate-300">{'}'}</span></div>
+                        </div>
+                      </Terminal>
+                      <div className="mt-3 space-y-1">
+                        <p className="text-[10px] text-slate-500 font-medium">Scripts executed:</p>
+                        {['GenerateIISExpressCertificate.ps1', 'InternetExplorerConfiguration.ps1', 'Msys2FirstLaunch.ps1', 'VSConfiguration.ps1'].map(s => (
+                          <div key={s} className="flex items-center gap-1.5">
+                            <CheckIcon className="w-3 h-3 text-blue-400" />
+                            <code className="text-[10px] text-slate-400">{s}</code>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Success banner */}
+                  <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/30">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                        <CheckIcon className="w-5 h-5 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-emerald-300">🎉 Your runner image is ready!</h4>
+                        <p className="text-xs text-slate-400 mt-0.5">The VM is now deployed with all toolchains pre-installed. You can register it as a self-hosted runner or use it for Azure Pipelines.</p>
+                      </div>
+                    </div>
+                  </div>
+                </Step>
+              </div>
             </div>
           )}
 
