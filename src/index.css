@@ -37,12 +37,6 @@ html {
   50% { box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.1); }
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -51,19 +45,9 @@ html {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 5s ease infinite;
-}
-
 /* Code block styling */
 code {
   font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-}
-
-/* Link hover underline effect */
-a {
-  position: relative;
 }
 
 /* Glass morphism effect */
