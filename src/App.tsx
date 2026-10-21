@@ -1,6 +1,38 @@
 import { useState, useEffect, useRef } from 'react';
 
 // ─── Icon Components ─────────────────────────────────────────────────────────
+function ServerIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
+    </svg>
+  );
+}
+
+function PlayIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+    </svg>
+  );
+}
+
+function CpuIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5M4.5 15.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
+    </svg>
+  );
+}
+
+function CloudIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+    </svg>
+  );
+}
+
 function ShieldIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -9,43 +41,18 @@ function ShieldIcon({ className = "w-6 h-6" }: { className?: string }) {
   );
 }
 
-function LockIcon({ className = "w-6 h-6" }: { className?: string }) {
+function PackageIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
     </svg>
   );
 }
 
-function BoltIcon({ className = "w-6 h-6" }: { className?: string }) {
+function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-    </svg>
-  );
-}
-
-function CubeIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-    </svg>
-  );
-}
-
-function LinkIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.54a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L4.34 8.374" />
-    </svg>
-  );
-}
-
-function EyeIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
     </svg>
   );
 }
@@ -58,10 +65,46 @@ function ChevronRight({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
+function CheckIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+  );
+}
+
+function DockerIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+      <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm-2.955-5.58h2.118a.186.186 0 00.186-.186V3.425a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185zm0 2.799h2.118a.187.187 0 00.186-.186V6.224a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185zm2.955 0h2.119a.186.186 0 00.186-.186V6.224a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm0 2.799h2.119a.186.186 0 00.186-.186V9.024a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm-5.91-5.598h2.118a.186.186 0 00.186-.186V3.425a.186.186 0 00-.186-.185H8.073a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm0 2.799h2.118a.187.187 0 00.186-.186V6.224a.186.186 0 00-.186-.185H8.073a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185zm-2.954 0h2.118a.186.186 0 00.186-.186V6.224a.186.186 0 00-.186-.185H5.12a.185.185 0 00-.186.185v1.888c0 .102.083.185.186.185zm0-2.799h2.118a.186.186 0 00.186-.186V3.425a.186.186 0 00-.186-.185H5.12a.185.185 0 00-.186.185v1.888c0 .102.083.185.186.185zm0-2.799h2.118a.187.187 0 00.186-.186V.626a.186.186 0 00-.186-.185H5.12a.186.186 0 00-.186.185v1.888c0 .102.083.185.186.185zM21.768 6.61c-.256-.168-.941-.487-1.876-.474-.148-.736-.653-1.363-1.276-1.766a.428.428 0 00-.213-.06V4.3a.427.427 0 00-.427-.427h-2.024a.427.427 0 00-.427.427v.013c-.078.004-.156.02-.228.06-.624.403-1.128 1.03-1.277 1.766-.935-.013-1.62.306-1.876.474a.428.428 0 00-.19.354v.013c0 .154.083.296.216.372.256.147.606.37 1.07.49.024.007.048.013.073.018-.06.12-.108.247-.142.38-.106.416-.07.866.106 1.296.176.43.476.79.866 1.04a2.67 2.67 0 001.49.453h5.293a2.67 2.67 0 001.49-.453c.39-.25.69-.61.866-1.04.176-.43.212-.88.106-1.296a1.87 1.87 0 00-.142-.38c.025-.005.049-.011.073-.018.464-.12.814-.343 1.07-.49a.428.428 0 00.216-.372v-.013a.428.428 0 00-.19-.354z"/>
+    </svg>
+  );
+}
+
+function UbuntuIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+      <circle cx="12" cy="6" r="2" fill="currentColor"/>
+      <circle cx="6.5" cy="15" r="2" fill="currentColor"/>
+      <circle cx="17.5" cy="15" r="2" fill="currentColor"/>
+      <path d="M12 8v4M8.5 13.5L11 11M15.5 13.5L13 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function WindowsIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 12V6.5l8-1.1V12H3zm0 .5h8v6.6l-8-1.1V12.5zm8.5-7.1L21 4v8h-9.5V5.4zm0 7.1H21v8l-9.5-1.4V12.5z"/>
+    </svg>
+  );
+}
+
+function AppleIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.47-2.35 1.05-3.11z"/>
     </svg>
   );
 }
@@ -94,58 +137,114 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
     return () => observer.disconnect();
   }, [target, duration]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-// ─── Pipeline Stage Component ─────────────────────────────────────────────────
-function PipelineStage({ name, label, active, index }: { name: string; label: string; active: boolean; index: number }) {
+// ─── Image Card Component ─────────────────────────────────────────────────────
+type ImageStatus = 'ga' | 'latest' | 'beta' | 'preview' | 'deprecated';
+
+interface RunnerImage {
+  name: string;
+  os: string;
+  arch: string;
+  yamlLabel: string;
+  status: ImageStatus;
+  icon: React.ReactNode;
+  color: string;
+}
+
+function ImageCard({ image }: { image: RunnerImage }) {
+  const statusColors: Record<ImageStatus, string> = {
+    ga: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    latest: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    beta: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    preview: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    deprecated: 'bg-red-500/10 text-red-400 border-red-500/20',
+  };
+
+  const statusLabels: Record<ImageStatus, string> = {
+    ga: 'GA',
+    latest: 'Latest',
+    beta: 'Beta',
+    preview: 'Preview',
+    deprecated: 'Deprecated',
+  };
+
   return (
-    <div className={`relative flex flex-col items-center transition-all duration-500 ${active ? 'scale-105' : 'scale-100 opacity-60'}`}>
-      <div
-        className={`w-14 h-14 rounded-xl flex items-center justify-center text-xs font-bold border-2 transition-all duration-500 ${
-          active
-            ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-lg shadow-emerald-500/20'
-            : 'bg-slate-800/50 border-slate-600 text-slate-400'
-        }`}
-      >
-        {index + 1}
+    <div className="group relative p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20">
+      <div className="flex items-start justify-between mb-3">
+        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${image.color}`}>
+          {image.icon}
+        </div>
+        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${statusColors[image.status]}`}>
+          {statusLabels[image.status]}
+        </span>
       </div>
-      <span className={`mt-2 text-xs font-medium ${active ? 'text-emerald-300' : 'text-slate-500'}`}>
-        {name}
-      </span>
-      <span className={`text-[10px] mt-0.5 ${active ? 'text-slate-300' : 'text-slate-600'}`}>
-        {label}
-      </span>
+      <h3 className="font-semibold text-white mb-1 group-hover:text-emerald-300 transition-colors">{image.name}</h3>
+      <p className="text-xs text-slate-500 mb-3">{image.os} • {image.arch}</p>
+      <div className="flex items-center gap-2">
+        <code className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 font-mono">{image.yamlLabel}</code>
+      </div>
+    </div>
+  );
+}
+
+// ─── Terminal Component ───────────────────────────────────────────────────────
+function Terminal({ children, title = "terminal" }: { children: React.ReactNode; title?: string }) {
+  return (
+    <div className="rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/80 border-b border-slate-800">
+        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+        <div className="w-3 h-3 rounded-full bg-green-500/80" />
+        <span className="ml-2 text-xs text-slate-500">{title}</span>
+      </div>
+      <div className="p-5 font-mono text-sm">
+        {children}
+      </div>
     </div>
   );
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function App() {
-  const [activeStage, setActiveStage] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const stages = [
-    { name: 'Idle', label: 'Awaiting' },
-    { name: 'PreExec', label: 'Guard' },
-    { name: 'Evaluate', label: 'Pure State' },
-    { name: 'Execute', label: 'Atomic' },
-    { name: 'Sealed', label: 'Verified' },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStage((prev) => (prev + 1) % stages.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [stages.length]);
+  const [activeFilter, setActiveFilter] = useState<'all' | 'ubuntu' | 'macos' | 'windows'>('all');
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const runnerImages: RunnerImage[] = [
+    { name: 'Ubuntu 26.04', os: 'Linux', arch: 'x64', yamlLabel: 'ubuntu-26.04', status: 'preview', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu 26.04 Arm64', os: 'Linux', arch: 'arm64', yamlLabel: 'ubuntu-26.04-arm', status: 'preview', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu 24.04', os: 'Linux', arch: 'x64', yamlLabel: 'ubuntu-latest', status: 'latest', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu 24.04 Arm64', os: 'Linux', arch: 'arm64', yamlLabel: 'ubuntu-24.04-arm', status: 'ga', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu 22.04', os: 'Linux', arch: 'x64', yamlLabel: 'ubuntu-22.04', status: 'ga', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu 22.04 Arm64', os: 'Linux', arch: 'arm64', yamlLabel: 'ubuntu-22.04-arm', status: 'ga', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'Ubuntu Slim', os: 'Linux', arch: 'x64', yamlLabel: 'ubuntu-slim', status: 'ga', icon: <UbuntuIcon className="w-5 h-5 text-orange-400" />, color: 'bg-orange-500/10 border border-orange-500/20' },
+    { name: 'macOS 26', os: 'macOS', arch: 'x64', yamlLabel: 'macos-latest-large', status: 'ga', icon: <AppleIcon className="w-5 h-5 text-slate-300" />, color: 'bg-slate-500/10 border border-slate-500/20' },
+    { name: 'macOS 26 Arm64', os: 'macOS', arch: 'arm64', yamlLabel: 'macos-latest', status: 'latest', icon: <AppleIcon className="w-5 h-5 text-slate-300" />, color: 'bg-slate-500/10 border border-slate-500/20' },
+    { name: 'macOS 15', os: 'macOS', arch: 'x64', yamlLabel: 'macos-15-large', status: 'ga', icon: <AppleIcon className="w-5 h-5 text-slate-300" />, color: 'bg-slate-500/10 border border-slate-500/20' },
+    { name: 'macOS 15 Arm64', os: 'macOS', arch: 'arm64', yamlLabel: 'macos-15', status: 'ga', icon: <AppleIcon className="w-5 h-5 text-slate-300" />, color: 'bg-slate-500/10 border border-slate-500/20' },
+    { name: 'Xcode 27', os: 'macOS', arch: 'arm64', yamlLabel: 'xcode-27', status: 'preview', icon: <AppleIcon className="w-5 h-5 text-slate-300" />, color: 'bg-slate-500/10 border border-slate-500/20' },
+    { name: 'Windows Server 2025', os: 'Windows', arch: 'x64', yamlLabel: 'windows-latest', status: 'latest', icon: <WindowsIcon className="w-5 h-5 text-blue-400" />, color: 'bg-blue-500/10 border border-blue-500/20' },
+    { name: 'Windows Server 2022', os: 'Windows', arch: 'x64', yamlLabel: 'windows-2022', status: 'ga', icon: <WindowsIcon className="w-5 h-5 text-blue-400" />, color: 'bg-blue-500/10 border border-blue-500/20' },
+    { name: 'Windows 11 Arm64', os: 'Windows', arch: 'arm64', yamlLabel: 'windows-11-arm', status: 'ga', icon: <WindowsIcon className="w-5 h-5 text-blue-400" />, color: 'bg-blue-500/10 border border-blue-500/20' },
+    { name: 'Win 11 Arm64 + VS 2026', os: 'Windows', arch: 'arm64', yamlLabel: 'windows-11-vs2026-arm', status: 'ga', icon: <WindowsIcon className="w-5 h-5 text-blue-400" />, color: 'bg-blue-500/10 border border-blue-500/20' },
+  ];
+
+  const filteredImages = activeFilter === 'all' 
+    ? runnerImages 
+    : runnerImages.filter(img => {
+        if (activeFilter === 'ubuntu') return img.os === 'Linux';
+        if (activeFilter === 'macos') return img.os === 'macOS';
+        if (activeFilter === 'windows') return img.os === 'Windows';
+        return true;
+      });
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
@@ -154,21 +253,20 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center">
-                <ShieldIcon className="w-5 h-5 text-slate-900" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                <ServerIcon className="w-5 h-5 text-slate-900" />
               </div>
-              <span className="font-bold text-lg tracking-tight">RUSTOLIA</span>
-              <span className="hidden sm:inline text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">v1.0</span>
+              <span className="font-bold text-lg tracking-tight">Runner Images</span>
+              <span className="hidden sm:inline text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Sovereign Fork</span>
             </div>
             <div className="hidden md:flex items-center gap-8">
+              <a href="#images" className="text-sm text-slate-400 hover:text-white transition-colors">Images</a>
               <a href="#features" className="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
-              <a href="#pipeline" className="text-sm text-slate-400 hover:text-white transition-colors">Pipeline</a>
-              <a href="#architecture" className="text-sm text-slate-400 hover:text-white transition-colors">Architecture</a>
-              <a href="#security" className="text-sm text-slate-400 hover:text-white transition-colors">Security</a>
+              <a href="#software" className="text-sm text-slate-400 hover:text-white transition-colors">Software</a>
               <a href="#getting-started" className="text-sm text-slate-400 hover:text-white transition-colors">Get Started</a>
             </div>
             <div className="flex items-center gap-3">
-              <a href="https://github.com/LakeHollywood/RUSTOLIA" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+              <a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
                 <GithubIcon className="w-4 h-4" />
                 <span className="hidden sm:inline">GitHub</span>
               </a>
@@ -184,14 +282,12 @@ export default function App() {
             </div>
           </div>
         </div>
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-slate-900/95 backdrop-blur-xl border-b border-slate-800">
             <div className="px-4 py-4 space-y-3">
+              <a href="#images" className="block text-sm text-slate-400 hover:text-white">Images</a>
               <a href="#features" className="block text-sm text-slate-400 hover:text-white">Features</a>
-              <a href="#pipeline" className="block text-sm text-slate-400 hover:text-white">Pipeline</a>
-              <a href="#architecture" className="block text-sm text-slate-400 hover:text-white">Architecture</a>
-              <a href="#security" className="block text-sm text-slate-400 hover:text-white">Security</a>
+              <a href="#software" className="block text-sm text-slate-400 hover:text-white">Software</a>
               <a href="#getting-started" className="block text-sm text-slate-400 hover:text-white">Get Started</a>
             </div>
           </div>
@@ -200,57 +296,54 @@ export default function App() {
 
       {/* ─── Hero Section ─────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex items-center justify-center pt-16">
-        {/* Background effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * 0.1}px)` }} />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * -0.1}px)` }} />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
+          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * 0.1}px)` }} />
+          <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-green-500/5 rounded-full blur-3xl" style={{ transform: `translateY(${scrollY * -0.1}px)` }} />
+          <div className="absolute inset-0 opacity-[0.02]" style={{
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
+            backgroundSize: '50px 50px'
           }} />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 mb-8">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs text-slate-400">Sovereign Engine Security & Verification Pipeline</span>
+            <span className="text-xs text-slate-400">GitHub Actions Runner Images • Forked & Enhanced</span>
           </div>
 
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight mb-6">
             <span className="bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-              Sovereign
+              Runner
             </span>
             <br />
-            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Engine
+            <span className="bg-gradient-to-r from-emerald-400 via-green-400 to-teal-500 bg-clip-text text-transparent">
+              Images
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Verifiable authority-boundary verification for autonomous systems.
-            A <code className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded text-sm">no_std</code>-compatible Rust security core that enforces
-            authority boundaries with cryptographic seals and tamper-evident lineage.
+          <p className="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            VM images for <span className="text-white font-medium">GitHub-hosted runners</span> and <span className="text-white font-medium">Microsoft-hosted agents</span>. 
+            Pre-configured with the latest toolchains for Ubuntu, macOS, and Windows — ready for your CI/CD pipelines.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#getting-started" className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
-              Get Started
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <a href="#images" className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-slate-900 font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+              Explore Images
               <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </a>
-            <a href="https://github.com/LakeHollywood/RUSTOLIA" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 transition-colors">
+            <a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 transition-colors">
               <GithubIcon className="w-5 h-5" />
-              View on GitHub
+              View Source
             </a>
           </div>
 
           {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
             {[
-              { value: 364, suffix: '+', label: 'Commits' },
-              { value: 71, suffix: '/71', label: 'Tests Pass' },
-              { value: 12, suffix: '/12', label: 'Harness Suites' },
-              { value: 0, suffix: '', label: 'no_std TCB' },
+              { value: 7327, suffix: '+', label: 'Commits' },
+              { value: 2389, suffix: '', label: 'Releases' },
+              { value: 459, suffix: '', label: 'Branches' },
+              { value: 18, suffix: '', label: 'Images' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-white">
@@ -262,7 +355,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -270,54 +362,104 @@ export default function App() {
         </div>
       </section>
 
+      {/* ─── Available Images Section ─────────────────────────────────── */}
+      <section id="images" className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Available Images</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Pre-built VM images with the latest toolchains, ready for GitHub Actions and Azure Pipelines.
+            </p>
+          </div>
+
+          {/* Filter buttons */}
+          <div className="flex items-center justify-center gap-2 mb-10 flex-wrap">
+            {[
+              { key: 'all', label: 'All', icon: <ServerIcon className="w-4 h-4" /> },
+              { key: 'ubuntu', label: 'Ubuntu', icon: <UbuntuIcon className="w-4 h-4" /> },
+              { key: 'macos', label: 'macOS', icon: <AppleIcon className="w-4 h-4" /> },
+              { key: 'windows', label: 'Windows', icon: <WindowsIcon className="w-4 h-4" /> },
+            ].map(filter => (
+              <button
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key as typeof activeFilter)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  activeFilter === filter.key
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-800'
+                }`}
+              >
+                {filter.icon}
+                {filter.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Image grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {filteredImages.map((image, i) => (
+              <ImageCard key={i} image={image} />
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-slate-500">
+              Showing {filteredImages.length} of {runnerImages.length} images • Updated weekly
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Features Section ─────────────────────────────────────────── */}
-      <section id="features" className="py-24 relative">
+      <section id="features" className="py-24 relative bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Core Features</span>
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Why Runner Images</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              A comprehensive security pipeline designed for autonomous systems that demand provable authority boundaries and cryptographic integrity.
+              Purpose-built VM images optimized for CI/CD workloads with comprehensive toolchain coverage.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                icon: <ShieldIcon className="w-6 h-6" />,
-                title: 'Authority-Boundary Enforcement',
-                description: 'Every action passes through capability checks, delegation-chain validation, and subject/agent authorization before execution.',
+                icon: <PlayIcon className="w-6 h-6" />,
+                title: 'Ready to Use',
+                description: 'Pre-configured with popular tools and languages. Start building immediately without setup time.',
                 color: 'emerald',
               },
               {
-                icon: <BoltIcon className="w-6 h-6" />,
-                title: 'Deterministic State Machine',
-                description: 'Atomic execution transitions with pure state evaluation — no side effects before the guard passes.',
+                icon: <CpuIcon className="w-6 h-6" />,
+                title: 'Multi-Architecture',
+                description: 'Support for both x64 and arm64 architectures across all platforms for maximum compatibility.',
                 color: 'cyan',
               },
               {
-                icon: <LockIcon className="w-6 h-6" />,
-                title: 'Cryptographic Seals & Receipts',
-                description: 'Ed25519-signed seals over execution results, with hash-chained lineage for tamper evidence.',
+                icon: <CloudIcon className="w-6 h-6" />,
+                title: 'Cloud Native',
+                description: 'Built for GitHub Actions and Azure Pipelines with seamless integration and fast provisioning.',
                 color: 'blue',
               },
               {
-                icon: <EyeIcon className="w-6 h-6" />,
-                title: 'Protocol & Time Verification',
-                description: 'Replay-resistant protocol handling and temporal-bounds checks with skew tolerance.',
+                icon: <PackageIcon className="w-6 h-6" />,
+                title: 'Rich Toolchains',
+                description: 'Latest versions of Docker, Node.js, Python, Go, Java, .NET, and hundreds more pre-installed.',
                 color: 'violet',
               },
               {
-                icon: <CubeIcon className="w-6 h-6" />,
-                title: 'Zeroizable Secrets',
-                description: 'Sensitive material wiped via zeroize; constant-time verification paths covered by dedicated tests.',
+                icon: <ShieldIcon className="w-6 h-6" />,
+                title: 'Secure & Updated',
+                description: 'Weekly updates with latest security patches. Tools removed 6 months after EOL.',
                 color: 'rose',
               },
               {
-                icon: <LinkIcon className="w-6 h-6" />,
-                title: 'Formal Verification',
-                description: 'TLA+ spec, Kani proofs, MIRI-checked tests, fuzz targets, and AAA falsification harness.',
+                icon: <DockerIcon className="w-6 h-6" />,
+                title: 'Docker Publish',
+                description: 'Custom Docker publish workflow for containerized deployments and image distribution.',
                 color: 'amber',
               },
             ].map((feature, i) => (
@@ -340,332 +482,94 @@ export default function App() {
         </div>
       </section>
 
-      {/* ─── Pipeline Section ─────────────────────────────────────────── */}
-      <section id="pipeline" className="py-24 relative bg-slate-900/30">
+      {/* ─── Software Support Section ─────────────────────────────────── */}
+      <section id="software" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Execution Pipeline</span>
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Software & Toolchains</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              A deterministic state-machine-driven execution pipeline ensures every transition is verified and sealed.
-            </p>
-          </div>
-
-          {/* Pipeline visualization */}
-          <div className="relative max-w-4xl mx-auto">
-            {/* Connection line */}
-            <div className="absolute top-7 left-[10%] right-[10%] h-0.5 bg-slate-800">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-700"
-                style={{ width: `${(activeStage / (stages.length - 1)) * 100}%` }}
-              />
-            </div>
-
-            <div className="flex justify-between items-start px-4 sm:px-8">
-              {stages.map((stage, i) => (
-                <PipelineStage
-                  key={i}
-                  name={stage.name}
-                  label={stage.label}
-                  active={i <= activeStage}
-                  index={i}
-                />
-              ))}
-            </div>
-
-            {/* Pipeline description */}
-            <div className="mt-12 p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                  <BoltIcon className="w-5 h-5 text-emerald-400" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white mb-1">
-                    {stages[activeStage].name} — {stages[activeStage].label}
-                  </h4>
-                  <p className="text-sm text-slate-400">
-                    {activeStage === 0 && 'System awaits incoming execution request. No state mutations occur until authority is established.'}
-                    {activeStage === 1 && 'Pre-execution guard validates capabilities, delegation chains, and subject authorization. Fail-closed by default.'}
-                    {activeStage === 2 && 'Pure state evaluator computes expected outcomes without side effects. Deterministic and replayable.'}
-                    {activeStage === 3 && 'Atomic execution phase — state transitions are committed as a single unit. No partial updates.'}
-                    {activeStage === 4 && 'Execution sealed with Ed25519 signature and SHA-256 hash chain. Tamper-evident receipt generated.'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Architecture Section ─────────────────────────────────────── */}
-      <section id="architecture" className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Repository Architecture</span>
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              A modular workspace with a no_std core library, HTTP service layer, and adversarial testing harness.
+              Comprehensive pre-installed software with intelligent version management strategies.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Directory tree */}
-            <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 font-mono text-sm">
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-800">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-2 text-xs text-slate-500">RUSTOLIA/</span>
+            {/* Installation strategy table */}
+            <div className="rounded-2xl bg-slate-900/50 border border-slate-800 overflow-hidden">
+              <div className="px-6 py-4 border-b border-slate-800 bg-slate-800/30">
+                <h3 className="font-semibold text-white flex items-center gap-2">
+                  <PackageIcon className="w-5 h-5 text-emerald-400" />
+                  Installation Strategy
+                </h3>
               </div>
-              <div className="space-y-1 text-slate-300">
-                <div className="text-emerald-400">├── sovereign-engine/ <span className="text-slate-500"># no_std core library</span></div>
-                <div className="pl-6 text-slate-400">└── src/ <span className="text-slate-500"># engine, agent, capability, seal...</span></div>
-                <div className="text-cyan-400">├── src/ <span className="text-slate-500"># Host service (Axum + SQLx)</span></div>
-                <div className="text-rose-400">├── aaa-falsification-harness/ <span className="text-slate-500"># Adversarial harness</span></div>
-                <div className="text-violet-400">├── tests/ <span className="text-slate-500"># Integration: Kani, MIRI, TLA+</span></div>
-                <div className="text-amber-400">├── fuzz/fuzz_targets/ <span className="text-slate-500"># cargo-fuzz targets</span></div>
-                <div className="text-blue-400">├── migrations/ <span className="text-slate-500"># SQL performance migrations</span></div>
-                <div className="text-slate-400">├── docs/specs/ <span className="text-slate-500"># Design specifications</span></div>
-                <div className="text-slate-400">├── monitoring/ <span className="text-slate-500"># Prometheus, Grafana</span></div>
-                <div className="text-slate-400">├── scripts/ <span className="text-slate-500"># Dev tooling</span></div>
-                <div className="text-slate-400">└── .github/workflows/ <span className="text-slate-500"># CI pipelines</span></div>
+              <div className="p-6 space-y-3">
+                {[
+                  { tool: 'Docker images', strategy: '3 latest LTS OS/tool versions' },
+                  { tool: 'Java', strategy: 'All LTS versions' },
+                  { tool: 'Node.js', strategy: '3 latest LTS versions' },
+                  { tool: 'Go', strategy: '3 latest minor versions' },
+                  { tool: 'Python / Ruby', strategy: '5 most popular major.minor' },
+                  { tool: '.NET Core', strategy: '2 latest LTS + 1 latest' },
+                  { tool: 'GCC / Clang', strategy: '3 latest major versions' },
+                  { tool: 'Android NDK', strategy: '1 latest non-LTS, 2 LTS' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-slate-800/50 last:border-0">
+                    <span className="text-sm text-white font-medium">{item.tool}</span>
+                    <span className="text-xs text-slate-400 text-right max-w-[55%]">{item.strategy}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Architecture cards */}
-            <div className="space-y-4">
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-emerald-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                    <CubeIcon className="w-4 h-4 text-emerald-400" />
+            {/* Package managers */}
+            <div className="rounded-2xl bg-slate-900/50 border border-slate-800 overflow-hidden">
+              <div className="px-6 py-4 border-b border-slate-800 bg-slate-800/30">
+                <h3 className="font-semibold text-white flex items-center gap-2">
+                  <CloudIcon className="w-5 h-5 text-cyan-400" />
+                  Package Managers by OS
+                </h3>
+              </div>
+              <div className="p-6 space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <UbuntuIcon className="w-4 h-4 text-orange-400" />
+                    <span className="text-sm font-semibold text-white">Ubuntu</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">APT + pipx</span>
                   </div>
-                  <h4 className="font-semibold text-white">sovereign-engine</h4>
-                  <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">no_std</span>
-                </div>
-                <p className="text-sm text-slate-400">Core library crate suitable for embedded and bare-metal targets. Zero-allocation hot paths.</p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-cyan-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
-                    <BoltIcon className="w-4 h-4 text-cyan-400" />
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Docker', 'Git', 'Git-LFS', 'Google Cloud', 'PostgreSQL', 'MongoDB', 'Mono', 'R', 'Firefox', 'Edge'].map(pkg => (
+                      <span key={pkg} className="text-xs px-2 py-1 rounded bg-slate-800/80 text-slate-300 border border-slate-700/50">{pkg}</span>
+                    ))}
                   </div>
-                  <h4 className="font-semibold text-white">sovereign_engine_service</h4>
-                  <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">std</span>
                 </div>
-                <p className="text-sm text-slate-400">HTTP service binary with Axum, SQLx persistence, and municipal audit worker.</p>
-              </div>
 
-              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-rose-500/30 transition-colors">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center">
-                    <ShieldIcon className="w-4 h-4 text-rose-400" />
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <WindowsIcon className="w-4 h-4 text-blue-400" />
+                    <span className="text-sm font-semibold text-white">Windows</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Chocolatey</span>
                   </div>
-                  <h4 className="font-semibold text-white">aaa-falsification-harness</h4>
-                  <span className="text-xs px-2 py-0.5 rounded bg-rose-500/10 text-rose-400">adversarial</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Visual Studio', 'MSBuild', 'PowerShell', 'NuGet', '.NET SDK', 'SQL Server', 'Azure CLI'].map(pkg => (
+                      <span key={pkg} className="text-xs px-2 py-1 rounded bg-slate-800/80 text-slate-300 border border-slate-700/50">{pkg}</span>
+                    ))}
+                  </div>
                 </div>
-                <p className="text-sm text-slate-400">Actively attacks engine invariants before release. Fuzz targets and formal proofs.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─── Code Example Section ─────────────────────────────────────── */}
-      <section className="py-24 relative bg-slate-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Quick Start</span>
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Build and run the Sovereign Engine in minutes.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Build commands */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-800">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-2 text-xs text-slate-500">terminal</span>
-              </div>
-              <div className="p-5 font-mono text-sm space-y-3">
                 <div>
-                  <span className="text-slate-500"># Build the entire workspace</span>
-                  <div className="text-emerald-400">$ cargo build --workspace</div>
-                </div>
-                <div>
-                  <span className="text-slate-500"># Build core library only (no_std)</span>
-                  <div className="text-cyan-400">$ cargo build -p sovereign-engine --no-default-features</div>
-                </div>
-                <div>
-                  <span className="text-slate-500"># Run the service</span>
-                  <div className="text-violet-400">$ cargo run --bin sovereign_engine --features std</div>
-                </div>
-                <div>
-                  <span className="text-slate-500"># Run tests</span>
-                  <div className="text-amber-400">$ cargo test --workspace</div>
-                </div>
-              </div>
-            </div>
-
-            {/* API endpoints */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-800">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-2 text-xs text-slate-500">API Endpoints</span>
-              </div>
-              <div className="p-5 space-y-4">
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
-                  <span className="px-2 py-1 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400">GET</span>
-                  <code className="text-sm text-slate-300">/health</code>
-                  <span className="text-xs text-slate-500 ml-auto">Liveness check</span>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
-                  <span className="px-2 py-1 rounded text-xs font-bold bg-blue-500/20 text-blue-400">POST</span>
-                  <code className="text-sm text-slate-300">/lineage</code>
-                  <span className="text-xs text-slate-500 ml-auto">Process lineage</span>
-                </div>
-                <div className="mt-4 p-3 rounded-lg bg-slate-800/30 border border-slate-700/50">
-                  <div className="text-xs text-slate-500 mb-2">Configuration</div>
-                  <div className="font-mono text-xs space-y-1">
-                    <div><span className="text-emerald-400">DATABASE_URL</span> <span className="text-slate-500">= sqlite:sovereign.db?mode=rwc</span></div>
-                    <div><span className="text-emerald-400">DB_MAX_CONNECTIONS</span> <span className="text-slate-500">= 50</span></div>
-                    <div><span className="text-emerald-400">RUST_LOG</span> <span className="text-slate-500">= warn</span></div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <AppleIcon className="w-4 h-4 text-slate-300" />
+                    <span className="text-sm font-semibold text-white">macOS</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400">Homebrew + pipx</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Xcode', 'AWS CLI', 'Azure Bicep', 'MongoDB', 'CocoaPods', 'Swift', 'Xamarin'].map(pkg => (
+                      <span key={pkg} className="text-xs px-2 py-1 rounded bg-slate-800/80 text-slate-300 border border-slate-700/50">{pkg}</span>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Security Section ─────────────────────────────────────────── */}
-      <section id="security" className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Security & Verification</span>
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Multi-layered verification with formal methods, adversarial testing, and cryptographic guarantees.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                  <LockIcon className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h3 className="text-lg font-semibold">Cryptographic Integrity</h3>
-              </div>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Ed25519 signatures with ZIP215 strict verification</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>SHA-256 hash-chained lineage for tamper evidence</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Post-quantum ready (Dilithium/ML-DSA feature-gated)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Constant-time verification paths</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
-                  <EyeIcon className="w-5 h-5 text-cyan-400" />
-                </div>
-                <h3 className="text-lg font-semibold">Formal Methods</h3>
-              </div>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
-                  <span>TLA+ formal specification for state machine</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
-                  <span>Kani proofs for memory safety verification</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
-                  <span>MIRI-checked tests for undefined behavior</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-cyan-400 mt-0.5 shrink-0" />
-                  <span>cargo-fuzz targets for temporal bounds</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center border border-violet-500/20">
-                  <ShieldIcon className="w-5 h-5 text-violet-400" />
-                </div>
-                <h3 className="text-lg font-semibold">Adversarial Testing</h3>
-              </div>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
-                  <span>AAA falsification harness actively attacks invariants</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
-                  <span>Authority boundary assessment with exit-code gating</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
-                  <span>STS-RBA replay verification traces</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
-                  <span>Domain-separated evidence binding</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20">
-                  <BoltIcon className="w-5 h-5 text-amber-400" />
-                </div>
-                <h3 className="text-lg font-semibold">Performance</h3>
-              </div>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Fat LTO with codegen-units = 1</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Zero-copy wire format with compile-time layout assertions</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>WAL-mode pooled SQLite with N+1 elimination</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-                  <span>Criterion benchmarks for hot-path comparison</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -673,95 +577,226 @@ export default function App() {
 
       {/* ─── Getting Started Section ──────────────────────────────────── */}
       <section id="getting-started" className="py-24 relative bg-slate-900/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Get Started</span>
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Get Started</span>
             </h2>
-            <p className="text-slate-400">
-              Prerequisites and setup for running Sovereign Engine.
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Use runner images in your GitHub Actions workflows with a simple YAML configuration.
             </p>
           </div>
 
-          <div className="space-y-6">
-            <div className="flex items-start gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400 font-bold text-sm">1</div>
-              <div>
-                <h4 className="font-semibold text-white mb-1">Install Rust Toolchain</h4>
-                <p className="text-sm text-slate-400">Rust edition 2021 required. Install via <code className="text-emerald-400 bg-emerald-500/10 px-1 rounded">rustup</code></p>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Basic workflow */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <CheckIcon className="w-5 h-5 text-emerald-400" />
+                Basic Workflow
+              </h3>
+              <Terminal title=".github/workflows/ci.yml">
+                <div className="space-y-1">
+                  <div><span className="text-slate-500"># Basic CI workflow</span></div>
+                  <div><span className="text-violet-400">name</span><span className="text-slate-400">: </span><span className="text-emerald-300">CI</span></div>
+                  <div><span className="text-violet-400">on</span><span className="text-slate-400">: [</span><span className="text-emerald-300">push</span><span className="text-slate-400">, </span><span className="text-emerald-300">pull_request</span><span className="text-slate-400">]</span></div>
+                  <div className="mt-2"><span className="text-violet-400">jobs</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">  </span><span className="text-violet-400">build</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">    </span><span className="text-violet-400">runs-on</span><span className="text-slate-400">: </span><span className="text-emerald-300">ubuntu-latest</span></div>
+                  <div><span className="text-slate-400">    </span><span className="text-violet-400">steps</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">      - </span><span className="text-violet-400">uses</span><span className="text-slate-400">: </span><span className="text-emerald-300">actions/checkout@v4</span></div>
+                  <div><span className="text-slate-400">      - </span><span className="text-violet-400">run</span><span className="text-slate-400">: </span><span className="text-emerald-300">npm test</span></div>
+                </div>
+              </Terminal>
             </div>
 
-            <div className="flex items-start gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400 font-bold text-sm">2</div>
-              <div>
-                <h4 className="font-semibold text-white mb-1">Clone the Repository</h4>
-                <code className="text-sm text-cyan-400 bg-slate-800 px-3 py-1.5 rounded-lg block mt-2">git clone https://github.com/LakeHollywood/RUSTOLIA.git</code>
+            {/* Multi-OS workflow */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <CheckIcon className="w-5 h-5 text-emerald-400" />
+                Multi-OS Matrix
+              </h3>
+              <Terminal title="matrix-strategy.yml">
+                <div className="space-y-1">
+                  <div><span className="text-slate-500"># Test across platforms</span></div>
+                  <div><span className="text-violet-400">jobs</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">  </span><span className="text-violet-400">test</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">    </span><span className="text-violet-400">strategy</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">      </span><span className="text-violet-400">matrix</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">        </span><span className="text-violet-400">os</span><span className="text-slate-400">:</span></div>
+                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">ubuntu-24.04</span></div>
+                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">macos-latest</span></div>
+                  <div><span className="text-slate-400">          - </span><span className="text-emerald-300">windows-latest</span></div>
+                  <div><span className="text-slate-400">    </span><span className="text-violet-400">runs-on</span><span className="text-slate-400">: </span><span className="text-cyan-300">${'{'}</span><span className="text-emerald-300">matrix.os</span><span className="text-cyan-300">{'}'}</span></div>
+                </div>
+              </Terminal>
+            </div>
+          </div>
+
+          {/* Clone command */}
+          <div className="mt-12">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <CheckIcon className="w-5 h-5 text-emerald-400" />
+              Clone This Repository
+            </h3>
+            <Terminal title="terminal">
+              <div className="space-y-2">
+                <div>
+                  <span className="text-slate-500"># Clone the runner-images repository</span>
+                </div>
+                <div>
+                  <span className="text-emerald-400">$</span>
+                  <span className="text-slate-300"> gh repo clone parkkris111-sovereign/runner-images</span>
+                </div>
+                <div className="mt-3">
+                  <span className="text-slate-500"># Or build a custom VM image</span>
+                </div>
+                <div>
+                  <span className="text-emerald-400">$</span>
+                  <span className="text-slate-300"> cd runner-images</span>
+                </div>
+                <div>
+                  <span className="text-emerald-400">$</span>
+                  <span className="text-slate-300"> cat docs/create-image-and-azure-resources.md</span>
+                </div>
               </div>
+            </Terminal>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Image Lifecycle Section ──────────────────────────────────── */}
+      <section className="py-24 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Image Lifecycle</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              From Beta to GA to Deprecation — a transparent lifecycle for every runner image.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-amber-500/20">
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+                BETA
+              </div>
+              <h3 className="text-lg font-semibold text-white mt-2 mb-3">Beta Phase</h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                  <span>Collect feedback before GA release</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                  <span>Weekly image updates</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                  <span>Not covered by SLA</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="flex items-start gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400 font-bold text-sm">3</div>
-              <div>
-                <h4 className="font-semibold text-white mb-1">Configure Environment</h4>
-                <code className="text-sm text-cyan-400 bg-slate-800 px-3 py-1.5 rounded-lg block mt-2">cp .env.example .env</code>
-                <p className="text-xs text-slate-500 mt-2">Adjust DATABASE_URL, DB_MAX_CONNECTIONS, RUST_LOG as needed</p>
+            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-emerald-500/20">
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                GA
               </div>
+              <h3 className="text-lg font-semibold text-white mt-2 mb-3">General Availability</h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                  <span>Production-ready and SLA-covered</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                  <span>Weekly software updates</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                  <span>Max 2 GA + 1 Beta at a time</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="flex items-start gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400 font-bold text-sm">4</div>
-              <div>
-                <h4 className="font-semibold text-white mb-1">Build & Run</h4>
-                <code className="text-sm text-cyan-400 bg-slate-800 px-3 py-1.5 rounded-lg block mt-2">cargo run --bin sovereign_engine --features std</code>
-                <p className="text-xs text-slate-500 mt-2">Service listens on 127.0.0.1:3000 by default</p>
+            <div className="relative p-6 rounded-2xl bg-slate-900/50 border border-red-500/20">
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold">
+                DEPRECATED
               </div>
+              <h3 className="text-lg font-semibold text-white mt-2 mb-3">Deprecation</h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                  <span>Announcement with deprecation date</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                  <span>Scheduled brownout periods</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <ChevronRight className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                  <span>Tools removed 6 months after EOL</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Cargo Features Table ─────────────────────────────────────── */}
-      <section className="py-24 relative">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ─── Repository Structure ─────────────────────────────────────── */}
+      <section className="py-24 relative bg-slate-900/30">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Cargo Features</span>
+              <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Repository Structure</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                Core Crate <span className="text-xs text-slate-500">(sovereign-engine)</span>
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
-                  <code className="text-sm text-emerald-400">std</code>
-                  <span className="text-xs text-slate-500">Standard library mode (default)</span>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
-                  <code className="text-sm text-emerald-400">sqlite</code>
-                  <span className="text-xs text-slate-500">rusqlite persistence (implies std)</span>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Terminal title="runner-images/">
+              <div className="space-y-1 text-slate-300">
+                <div className="text-emerald-400">├── images/ <span className="text-slate-500"># VM image definitions</span></div>
+                <div className="pl-6 text-slate-400">├── ubuntu/ <span className="text-slate-500"># Ubuntu scripts & configs</span></div>
+                <div className="pl-6 text-slate-400">├── macos/ <span className="text-slate-500"># macOS image builds</span></div>
+                <div className="pl-6 text-slate-400">├── windows/ <span className="text-slate-500"># Windows Server images</span></div>
+                <div className="pl-6 text-slate-400">└── ubuntu-slim/ <span className="text-slate-500"># Minimal Ubuntu image</span></div>
+                <div className="text-cyan-400">├── images.CI/ <span className="text-slate-500"># CI build pipelines</span></div>
+                <div className="text-violet-400">├── helpers/ <span className="text-slate-500"># Build helper scripts</span></div>
+                <div className="text-amber-400">├── schemas/ <span className="text-slate-500"># JSON schemas</span></div>
+                <div className="text-blue-400">├── docs/ <span className="text-slate-500"># Documentation & guides</span></div>
+                <div className="text-slate-400">└── .github/ <span className="text-slate-500"># Workflows & Docker publish</span></div>
               </div>
-            </div>
+            </Terminal>
 
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                Service Crate <span className="text-xs text-slate-500">(sovereign_engine_service)</span>
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
-                  <code className="text-sm text-cyan-400">std</code>
-                  <span className="text-xs text-slate-500">Standard library dependencies</span>
+            <div className="space-y-4">
+              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-emerald-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                    <ServerIcon className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <h4 className="font-semibold text-white">Image Definitions</h4>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-800">
-                  <code className="text-sm text-cyan-400">serde-support</code>
-                  <span className="text-xs text-slate-500">Serde serialization</span>
+                <p className="text-sm text-slate-400">PowerShell & Shell scripts that define what gets installed on each VM image. Organized by OS family.</p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-cyan-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
+                    <PlayIcon className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <h4 className="font-semibold text-white">CI Pipelines</h4>
                 </div>
+                <p className="text-sm text-slate-400">Azure ARM templates and CI configurations for building and validating images at scale.</p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-violet-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                    <DockerIcon className="w-4 h-4 text-violet-400" />
+                  </div>
+                  <h4 className="font-semibold text-white">Docker Publish</h4>
+                </div>
+                <p className="text-sm text-slate-400">Custom workflow for publishing containerized images with automated tagging and registry push.</p>
               </div>
             </div>
           </div>
@@ -774,46 +809,46 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center">
-                  <ShieldIcon className="w-5 h-5 text-slate-900" />
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center">
+                  <ServerIcon className="w-5 h-5 text-slate-900" />
                 </div>
-                <span className="font-bold text-lg">RUSTOLIA</span>
+                <span className="font-bold text-lg">Runner Images</span>
               </div>
               <p className="text-sm text-slate-400">
-                Sovereign Engine Security & Verification Pipeline.
-                Verifiable authority-boundary verification for autonomous systems.
+                GitHub Actions runner images — VM source code for GitHub-hosted runners and Microsoft-hosted Azure Pipelines agents.
               </p>
             </div>
 
             <div>
               <h4 className="font-semibold text-white mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">GitHub Repository</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/tree/main/docs/specs" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Design Specifications</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Security Policy</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/releases" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Releases</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">GitHub Repository</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images/releases" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Releases (2,389 tags)</a></li>
+                <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">GitHub Actions Docs</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Contributing Guide</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-white mb-4">Documentation</h4>
+              <h4 className="font-semibold text-white mb-4">Image Documentation</h4>
               <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/blob/main/docs/specs/agent-evidence-ring.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Agent Evidence Ring</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/blob/main/docs/specs/phase4_portable_attestation.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Portable Attestation</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/blob/main/PERFORMANCE_OPTIMIZATION.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Performance Guide</a></li>
-                <li><a href="https://github.com/LakeHollywood/RUSTOLIA/blob/main/tests/SovereignEngine.tla" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">TLA+ Specification</a></li>
+                <li><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Ubuntu 24.04 Readme</a></li>
+                <li><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">macOS 26 Arm64 Readme</a></li>
+                <li><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-VS2026-Readme.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Windows 2025 Readme</a></li>
+                <li><a href="https://github.com/parkkris111-sovereign/runner-images/blob/main/docs/create-image-and-azure-resources.md" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Build Custom Image</a></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-slate-500">
-              © 2026 Kris Park / Master Combine. Dual licensed under MIT OR Apache-2.0.
+              © 2026 MIT License • Forked from actions/runner-images
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">MIT</span>
-              <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Apache-2.0</span>
-              <a href="https://github.com/LakeHollywood/RUSTOLIA" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+              <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">PowerShell</span>
+              <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Shell</span>
+              <span className="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">HCL</span>
+              <a href="https://github.com/parkkris111-sovereign/runner-images" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
                 <GithubIcon className="w-5 h-5" />
               </a>
             </div>
