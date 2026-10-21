@@ -5,7 +5,8 @@ from google.antigravity.types import CapabilitiesConfig, BuiltinTools
 from google.antigravity.hooks.policy import deny, allow
 
 # 1. Build tight policy restrictions for the runtime layer.
-# This keeps 'run_command' active but blocks dangerous patterns.
+# With Option B (blacklist-only), 'run_command' STAYS ENABLED, so these runtime
+# policies are the primary defense against destructive shell execution.
 sysadmin_runtime_policies = [
     # Deny shell execution if the command matches a dangerous structural footprint.
     # NOTE: order matters — DENY rules must be listed BEFORE the catch-all ALLOW("*"),
@@ -27,22 +28,20 @@ sysadmin_runtime_policies = [
 # 2. Assemble the hardened LocalAgentConfig configuration block
 SECURE_SYS_ADMIN_CONFIG = LocalAgentConfig(
     system_instructions=(
-        "You are a sandboxed SysAdmin Agent. You have access to read-only utilities. "
-        "Analyze the environment and report path profiles cleanly without using destructive actions."
+        "You are a sandboxed SysAdmin Agent. Shell access is available but heavily "
+        "policy-restricted. Analyze the environment and report path profiles cleanly "
+        "without using destructive actions."
     ),
-    # Register runtime policy guardrails
+    # Register runtime policy guardrails (now load-bearing: run_command is live)
     policies=sysadmin_runtime_policies,
-    # Harness-Level Enforcement: Strip tools completely out of the agent's view.
+    # Harness-Level Enforcement: Option B — blacklist-only strategy.
+    # The SDK validates that enabled_tools and disabled_tools are mutually exclusive,
+    # so we drop the read_only() whitelist entirely and only strip the direct-write
+    # tools. 'run_command' remains visible/enabled and is governed by the runtime
+    # deny policy above; 'create_file' and 'edit_file' are removed from the agent's
+    # view so it cannot bypass the shell guardrails via the file-writing tools.
     capabilities=CapabilitiesConfig(
-        # Option A: Explicitly restrict to the SDK's built-in read-only collection.
-        # Verified against the installed SDK: BuiltinTools.read_only() resolves to
-        # [VIEW_FILE, READ_URL_CONTENT, SCHEDULE, FINISH], which excludes CREATE_FILE,
-        # EDIT_FILE, and RUN_COMMAND — i.e. no direct file modification, writes, or
-        # unmonitored script executions.
-        enabled_tools=BuiltinTools.read_only(),
-        # Option B (mutually exclusive with Option A — pick ONE strategy):
-        # Explicitly blacklist specific core tool models instead of whitelisting:
-        # disabled_tools=[BuiltinTools.RUN_COMMAND]
+        disabled_tools=[BuiltinTools.CREATE_FILE, BuiltinTools.EDIT_FILE],
     ),
 )
 
