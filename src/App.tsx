@@ -936,30 +936,255 @@ export default function App() {
             </div>
           )}
 
-          {/* Quick reference card */}
-          <div className="mt-16 p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <DownloadIcon className="w-5 h-5 text-emerald-400" />
-              Quick Reference — All Commands
-            </h3>
-            <Terminal title="all-in-one.sh">
-              <div className="space-y-1">
-                <div><span className="text-slate-500"># 1. Clone</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">gh repo clone parkkris111-sovereign/runner-images</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">cd runner-images</span></div>
-                <div className="mt-2"><span className="text-slate-500"># 2. Install Packer</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">choco install packer  <span className="text-slate-500"># Windows</span></span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">brew install packer   <span className="text-slate-500"># macOS</span></span></div>
-                <div className="mt-2"><span className="text-slate-500"># 3. Login to Azure</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">az login</span></div>
-                <div className="mt-2"><span className="text-slate-500"># 4. Build image (PowerShell)</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\GenerateResourcesAndImage.ps1</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">GenerateResourcesAndImage -SubscriptionId "..." -ResourceGroupName "..." -AzureLocation "East US" -ImageType "Ubuntu2404"</span></div>
-                <div className="mt-2"><span className="text-slate-500"># 5. Deploy VM from image</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</span></div>
-                <div><span className="text-emerald-400">$</span> <span className="text-slate-300">CreateAzureVMFromPackerTemplate -SubscriptionId "..." -ResourceGroupName "..." -ManagedImageName "Runner-Image-Ubuntu2404" -VirtualMachineName "my-runner" -AdminUsername "runner" -AdminPassword "..." -AzureLocation "eastus"</span></div>
+          {/* ─── Command Cheat Sheet ──────────────────────────────────── */}
+          <div className="mt-16">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30 flex items-center justify-center">
+                  <DownloadIcon className="w-5 h-5 text-emerald-400" />
+                </div>
+                Command Cheat Sheet
+              </h3>
+              <button
+                onClick={() => {
+                  const allCommands = `# 1. Clone the repository
+gh repo clone parkkris111-sovereign/runner-images
+cd runner-images
+
+# 2. Install Packer
+choco install packer  # Windows
+brew install packer   # macOS
+wget -O- packer.io/install.sh | bash  # Linux
+
+# 3. Login to Azure
+az login
+
+# 4. Build image (PowerShell)
+Import-Module .\\helpers\\GenerateResourcesAndImage.ps1
+GenerateResourcesAndImage -SubscriptionId "YOUR_SUB_ID" -ResourceGroupName "YOUR_RG" -AzureLocation "East US" -ImageType "Ubuntu2404"
+
+# 5. Deploy VM from image
+Import-Module .\\helpers\\CreateAzureVMFromPackerTemplate.ps1
+CreateAzureVMFromPackerTemplate -SubscriptionId "YOUR_SUB_ID" -ResourceGroupName "YOUR_RG" -ManagedImageName "Runner-Image-Ubuntu2404" -VirtualMachineName "my-runner" -AdminUsername "runner" -AdminPassword "YOUR_PASSWORD" -AzureLocation "eastus"
+
+# 6. Run post-generation scripts (Ubuntu)
+sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \\;"
+
+# 6. Run post-generation scripts (Windows)
+Get-ChildItem C:\\post-generation -Filter *.ps1 | ForEach-Object { & $_.FullName }`;
+                  navigator.clipboard.writeText(allCommands);
+                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium hover:bg-emerald-500/20 transition-colors"
+              >
+                <CopyIcon className="w-4 h-4" />
+                Copy All
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Step 1: Clone */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">1</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Clone Repository</h4>
+                      <p className="text-xs text-slate-500">~1 min • Download the source code</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('gh repo clone parkkris111-sovereign/runner-images\ncd runner-images')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-slate-800"
+                    title="Copy commands"
+                  >
+                    <CopyIcon className="w-4 h-4 text-slate-400" />
+                  </button>
+                </div>
+                <div className="pl-11 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">gh repo clone parkkris111-sovereign/runner-images</code>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">cd runner-images</code>
+                  </div>
+                </div>
               </div>
-            </Terminal>
+
+              {/* Step 2: Install Packer */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">2</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Install Packer</h4>
+                      <p className="text-xs text-slate-500">~5 min • Image builder by HashiCorp</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('choco install packer  # Windows\nbrew install packer   # macOS\nwget -O- packer.io/install.sh | bash  # Linux')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-slate-800"
+                    title="Copy commands"
+                  >
+                    <CopyIcon className="w-4 h-4 text-slate-400" />
+                  </button>
+                </div>
+                <div className="pl-11 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">choco install packer</code>
+                    <span className="text-xs text-slate-500 ml-2">Windows</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">brew install packer</code>
+                    <span className="text-xs text-slate-500 ml-2">macOS</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">wget -O- packer.io/install.sh | bash</code>
+                    <span className="text-xs text-slate-500 ml-2">Linux</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3: Azure Login */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">3</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Login to Azure</h4>
+                      <p className="text-xs text-slate-500">~2 min • Authenticate with your subscription</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('az login')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-slate-800"
+                    title="Copy command"
+                  >
+                    <CopyIcon className="w-4 h-4 text-slate-400" />
+                  </button>
+                </div>
+                <div className="pl-11">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">az login</code>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">Opens browser for interactive authentication</p>
+                </div>
+              </div>
+
+              {/* Step 4: Build Image */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">4</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Build Image</h4>
+                      <p className="text-xs text-slate-500">~60-90 min • Generate managed image in Azure</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('Import-Module .\\helpers\\GenerateResourcesAndImage.ps1\nGenerateResourcesAndImage -SubscriptionId "YOUR_SUB_ID" -ResourceGroupName "YOUR_RG" -AzureLocation "East US" -ImageType "Ubuntu2404"')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-slate-800"
+                    title="Copy commands"
+                  >
+                    <CopyIcon className="w-4 h-4 text-slate-400" />
+                  </button>
+                </div>
+                <div className="pl-11 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">Import-Module .\helpers\GenerateResourcesAndImage.ps1</code>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-emerald-400 text-xs font-mono mt-0.5">$</span>
+                    <code className="text-sm text-slate-300 font-mono break-all">GenerateResourcesAndImage -SubscriptionId <span className="text-cyan-400">"YOUR_SUB_ID"</span> -ResourceGroupName <span className="text-cyan-400">"YOUR_RG"</span> -AzureLocation <span className="text-cyan-400">"East US"</span> -ImageType <span className="text-cyan-400">"Ubuntu2404"</span></code>
+                  </div>
+                  <div className="mt-3 p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                    <p className="text-xs text-slate-400"><strong className="text-slate-300">ImageType options:</strong> <code className="text-slate-300">Ubuntu2204</code>, <code className="text-slate-300">Ubuntu2404</code>, <code className="text-slate-300">Ubuntu2604</code>, <code className="text-slate-300">Windows2022</code>, <code className="text-slate-300">Windows2025</code>, <code className="text-slate-300">Windows2025_vs2026</code></p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 5: Deploy VM */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">5</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Deploy VM from Image</h4>
+                      <p className="text-xs text-slate-500">~10 min • Create VM with all toolchains</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText('Import-Module .\\helpers\\CreateAzureVMFromPackerTemplate.ps1\nCreateAzureVMFromPackerTemplate -SubscriptionId "YOUR_SUB_ID" -ResourceGroupName "YOUR_RG" -ManagedImageName "Runner-Image-Ubuntu2404" -VirtualMachineName "my-runner" -AdminUsername "runner" -AdminPassword "YOUR_PASSWORD" -AzureLocation "eastus"')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-slate-800"
+                    title="Copy commands"
+                  >
+                    <CopyIcon className="w-4 h-4 text-slate-400" />
+                  </button>
+                </div>
+                <div className="pl-11 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-400 text-xs font-mono">$</span>
+                    <code className="text-sm text-slate-300 font-mono">Import-Module .\helpers\CreateAzureVMFromPackerTemplate.ps1</code>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-emerald-400 text-xs font-mono mt-0.5">$</span>
+                    <code className="text-sm text-slate-300 font-mono break-all">CreateAzureVMFromPackerTemplate -SubscriptionId <span className="text-cyan-400">"YOUR_SUB_ID"</span> -ResourceGroupName <span className="text-cyan-400">"YOUR_RG"</span> -ManagedImageName <span className="text-cyan-400">"Runner-Image-Ubuntu2404"</span> -VirtualMachineName <span className="text-cyan-400">"my-runner"</span> -AdminUsername <span className="text-cyan-400">"runner"</span> -AdminPassword <span className="text-cyan-400">"YOUR_PASSWORD"</span> -AzureLocation <span className="text-cyan-400">"eastus"</span></code>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 6: Post-Gen Scripts */}
+              <div className="group p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-sm">6</div>
+                    <div>
+                      <h4 className="font-semibold text-white">Run Post-Generation Scripts</h4>
+                      <p className="text-xs text-slate-500">~5 min • Finalize setup and permissions</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="pl-11 space-y-4">
+                  <div>
+                    <p className="text-xs text-orange-400 font-medium mb-2 flex items-center gap-1.5">
+                      <UbuntuIcon className="w-3.5 h-3.5" />
+                      Ubuntu
+                    </p>
+                    <div className="flex items-start gap-2">
+                      <span className="text-emerald-400 text-xs font-mono mt-0.5">$</span>
+                      <code className="text-sm text-slate-300 font-mono break-all">sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {'{}'} \;"</code>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-xs text-blue-400 font-medium mb-2 flex items-center gap-1.5">
+                      <WindowsIcon className="w-3.5 h-3.5" />
+                      Windows
+                    </p>
+                    <div className="flex items-start gap-2">
+                      <span className="text-emerald-400 text-xs font-mono mt-0.5">$</span>
+                      <code className="text-sm text-slate-300 font-mono break-all">Get-ChildItem C:\post-generation -Filter *.ps1 | ForEach-Object {'{'} & $_.FullName {'}'}</code>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Success message */}
+            <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/30 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+                <CheckIcon className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-emerald-300">Your runner image is ready!</p>
+                <p className="text-xs text-slate-400 mt-0.5">The VM is deployed with all toolchains pre-installed. Register it as a self-hosted runner or use it for Azure Pipelines.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
