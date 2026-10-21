@@ -58,7 +58,7 @@ mod sha512 {
         0x6a09e667f3bcc908,
         0xbb67ae8584caa73b,
         0x3c6ef372fe94f82b,
-        0xa54ff53a5f1d36f0,
+        0xa54ff53a5f1d36f1,
         0x510e527fade682d1,
         0x9b05688c2b3e6c1f,
         0x1f83d9abfb41bd6b,
@@ -87,28 +87,39 @@ mod sha512 {
                 w[i] = u64::from_be_bytes(block[i * 8..i * 8 + 8].try_into().unwrap());
             }
             for i in 16..80 {
-                let s0 = w[i - 15].rotate_right(1) ^ w[i - 15].rotate_right(8) ^ (w[i - 15] >> 7);
-                let s1 = w[i - 2].rotate_right(19) ^ w[i - 2].rotate_right(61) ^ (w[i - 2] >> 6);
-                w[i] = w[i - 16]
-                    .wrapping_add(s0)
+                // FIPS 180-4 6.4.1 / Table 4:
+                //   W[t] = theta1(W[t-2]) + W[t-7] + theta0(W[t-15]) + W[t-16]
+                // where theta0 uses ROTR(1)^ROTR(8)^SHR(7) and theta1 uses
+                // ROTR(19)^ROTR(61)^SHR(6). The two shifts are SHR — logical
+                // right shifts that fill with zeros — not rotations.
+                let x = w[i - 15];
+                let theta0 =
+                    x.rotate_right(1) ^ x.rotate_right(8) ^ (x >> 7);
+                let y = w[i - 2];
+                let theta1 =
+                    y.rotate_right(19) ^ y.rotate_right(61) ^ (y >> 6);
+                w[i] = theta1
                     .wrapping_add(w[i - 7])
-                    .wrapping_add(s1);
+                    .wrapping_add(theta0)
+                    .wrapping_add(w[i - 16]);
             }
             let (mut a, mut b, mut c, mut d, mut e, mut f, mut g, mut hh) =
                 (h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7]);
             for i in 0..80 {
-                let s1 = e.rotate_right(14) ^ e.rotate_right(18) ^ e.rotate_right(41);
+                // FIPS 180-4 6.4.2: Sigma1/Sigma0 use ROTATE (not SHR), so
+                // every bit of the word participates in both rotations.
+                let big_s1 = e.rotate_right(14) ^ e.rotate_right(18) ^ e.rotate_right(41);
                 let ch = (e & f) ^ ((!e) & g);
                 // Sigma-0 and Maj use the PRE-ROUND values of a/b/c: capture
                 // them before any register is rotated.
-                let s0 = a.rotate_right(28) ^ a.rotate_right(34) ^ a.rotate_right(39);
+                let big_s0 = a.rotate_right(28) ^ a.rotate_right(34) ^ a.rotate_right(39);
                 let maj = (a & b) ^ (a & c) ^ (b & c);
                 let t1 = hh
-                    .wrapping_add(s1)
+                    .wrapping_add(big_s1)
                     .wrapping_add(ch)
                     .wrapping_add(K[i])
                     .wrapping_add(w[i]);
-                let t2 = s0.wrapping_add(maj);
+                let t2 = big_s0.wrapping_add(maj);
                 let new_a = t1.wrapping_add(t2);
                 // Full register rotation per FIPS 180-4 6.4.2 step 13:
                 // h<-g, g<-f, f<-e, e<-d+t1, d<-c, c<-b, b<-a, a<-T1+T2.
@@ -647,8 +658,9 @@ mod tests {
         let contents = std::fs::read_to_string(&path).unwrap();
         let lines: Vec<&str> = contents.lines().collect();
         // Forged line: flipped state columns + prev_hash column copied from
-        // line 0 (i.e., relinked straight onto the genesis successor slot).
-        let zero_prev_col = lines[0].split('|').next_back().unwrap().to_string();
+        // line 1's own embedded digest (= record 0's chaining digest), i.e.
+        // relinked straight onto record 0. The payload columns are the ones
+        // an auditor would read, so those are what we forge.
         let payload: Vec<&str> = lines[1].split('|').collect();
         let forged = format!(
             "{}|{}|{}|{}|{}|{}|{}|{}",
@@ -659,7 +671,7 @@ mod tests {
             1, // Operational instead of LockedDown
             payload[5],
             0, // Sovereign instead of Revoked
-            zero_prev_col,
+            payload[7],
         );
         std::fs::write(&path, format!("{}\n{}\n{}\n", lines[0], forged, lines[2])).unwrap();
 
